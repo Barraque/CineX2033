@@ -11,7 +11,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="CineX2033Boot" target="1.8" />
+      <module name="CineX2033Boot" target="11" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
