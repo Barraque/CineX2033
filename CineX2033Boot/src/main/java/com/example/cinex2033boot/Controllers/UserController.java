@@ -24,7 +24,7 @@ public class UserController {
     @GetMapping("")
     public UserEntity hello(
     ){
-        return userRepository.findByLogin("quentin");
+        return userRepository.findByUsername("quentin");
     }
 
     @PostMapping("auth")

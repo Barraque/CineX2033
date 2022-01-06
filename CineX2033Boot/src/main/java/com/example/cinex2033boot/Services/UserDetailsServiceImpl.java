@@ -1,5 +1,11 @@
 package com.example.cinex2033boot.Services;
 
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+
+import com.example.cinex2033boot.Models.Role;
 import com.example.cinex2033boot.Models.UserEntity;
 import com.example.cinex2033boot.Repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,11 +14,12 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
-import java.util.ArrayList;
-import java.util.List;
 
+
+@Service
 public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Autowired
@@ -21,19 +28,19 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Override
     @Transactional
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        UserEntity user = repo.findByLogin(username);
-        System.out.println("ttt");
-        System.out.println(repo.findByLogin(username));
+        UserEntity user = repo.findByUsername(username);
         if (user != null) {
-            return new User(user.getLogin(), user.getPassword(), buildSimpleGrantedAuthorities());
+            return new User(user.getUsername(), user.getPassword(), buildSimpleGrantedAuthorities(user.getRoles()));
         } else {
             throw new UsernameNotFoundException("User not found with username: " + username);
         }
     }
 
-    private static List<SimpleGrantedAuthority> buildSimpleGrantedAuthorities() {
+    private static List<SimpleGrantedAuthority> buildSimpleGrantedAuthorities(final Set<Role> roles) {
         List<SimpleGrantedAuthority> authorities = new ArrayList<>();
-        authorities.add(new SimpleGrantedAuthority("USER"));
+        for (Role role : roles) {
+            authorities.add(new SimpleGrantedAuthority(role.getName()));
+        }
         return authorities;
     }
 }
