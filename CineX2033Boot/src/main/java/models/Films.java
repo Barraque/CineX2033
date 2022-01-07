@@ -14,7 +14,7 @@ import java.util.List;
 public class Films {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="film_id",nullable = false,updatable = false)
     private Long film_id;
 
@@ -25,13 +25,15 @@ public class Films {
     private int duree;
 
     @Column(name="langues", nullable = false)
-    private Langues langues;
+    private Langue_film langues;
 
+    @ManyToOne
     @Column(name="producteur", nullable = false)
     private Personne producteur;
 
-    @Column(name="Listeacteurs", nullable = false)
-    private List<Personne> Listeacteurs;
+    @ManyToMany
+    @Column(name="acteurs", nullable = false)
+    private List<Personne> acteurs;
 
     @Column(name="minage", nullable = false)
     private int minage;
@@ -44,13 +46,4 @@ public class Films {
     @JsonFormat(pattern = "dd/MM/yyy")
     private Date dateF;
 
-
-    public void setId(Long id) {
-        this.film_id = id;
-    }
-
-    @Id
-    public Long getId() {
-        return film_id;
-    }
 }
