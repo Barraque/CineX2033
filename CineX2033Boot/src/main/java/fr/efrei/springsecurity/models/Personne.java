@@ -1,4 +1,4 @@
-package models;
+package fr.efrei.springsecurity.models;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;

@@ -1,4 +1,4 @@
-package models;
+package fr.efrei.springsecurity.models;
 
 import lombok.Data;
 
