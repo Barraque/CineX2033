@@ -1,32 +1,40 @@
 package fr.efrei.springsecurity.controllers;
 
+
 import fr.efrei.springsecurity.models.Cinema;
 import fr.efrei.springsecurity.models.Film;
+import fr.efrei.springsecurity.services.auth.CinemaService;
 import fr.efrei.springsecurity.services.auth.FilmService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController
-@RequestMapping("film")
-public class FilmController {
 
+@RestController
+@RequestMapping("cinema")
+
+public class CinemaController {
     @Autowired
-    FilmService filmService;
+    CinemaService cinemaService;
 
     @PostMapping("")
-    public Film createFilm(
-            @RequestBody Film film
+    public Cinema createCinema(
+            @RequestBody Cinema cinema
     ){
-        return filmService.saveFilm(film);
+        return cinemaService.saveCinema(cinema);
     }
 
     @GetMapping("{id}")
-    public Film getFilm(
+    public Cinema getFilm(
             @PathVariable(name = "id") Long id
     ){
-        return filmService.getFilm(id);
+        return cinemaService.getCinema(id);
+    }
+
+    @GetMapping("")
+    public List<Cinema> getAllFilm() {
+        return cinemaService.getallCinema();
     }
 
 
