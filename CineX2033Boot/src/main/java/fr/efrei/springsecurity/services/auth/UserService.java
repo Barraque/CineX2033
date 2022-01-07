@@ -1,8 +1,8 @@
 package fr.efrei.springsecurity.services.auth;
 
-import fr.efrei.springsecurity.models.auth.Role;
-import fr.efrei.springsecurity.models.auth.UserEntity;
-import fr.efrei.springsecurity.models.auth.UserFormDao;
+import fr.efrei.springsecurity.models.Role;
+import fr.efrei.springsecurity.models.UserEntity;
+import fr.efrei.springsecurity.models.UserFormDao;
 import fr.efrei.springsecurity.repositories.RoleRepository;
 import fr.efrei.springsecurity.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;

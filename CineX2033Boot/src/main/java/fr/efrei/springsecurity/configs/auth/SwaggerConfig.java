@@ -24,8 +24,8 @@ public class SwaggerConfig {
     }
 
     private ApiInfo apiInfo() {
-        return new ApiInfo("Product REST API", "Product API to perform CRUD opertations", "1.0", "Terms of service",
-                new Contact("Java Chinna", "www.javachinna.com", "java4chinna@gmail.com"), "License of API", "API license URL", Collections.emptyList());
+        return new ApiInfo("FILM REST API", "film API", "1.0", "Terms of service",
+                new Contact("Louis Barraque", "google.fr", "cecinestpasun@mail.com"), "License of API", "API license URL", Collections.emptyList());
     }
 
     private List<SecurityScheme> securitySchemes() {

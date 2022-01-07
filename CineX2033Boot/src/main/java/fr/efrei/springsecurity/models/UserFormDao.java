@@ -1,4 +1,4 @@
-package fr.efrei.springsecurity.models.auth;
+package fr.efrei.springsecurity.models;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;

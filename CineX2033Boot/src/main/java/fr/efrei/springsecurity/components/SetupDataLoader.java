@@ -1,7 +1,7 @@
 package fr.efrei.springsecurity.components;
 
-import fr.efrei.springsecurity.models.auth.Role;
-import fr.efrei.springsecurity.models.auth.UserEntity;
+import fr.efrei.springsecurity.models.Role;
+import fr.efrei.springsecurity.models.UserEntity;
 import fr.efrei.springsecurity.repositories.RoleRepository;
 import fr.efrei.springsecurity.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
