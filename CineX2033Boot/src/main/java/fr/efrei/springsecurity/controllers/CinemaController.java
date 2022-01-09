@@ -63,6 +63,11 @@ public class CinemaController {
 
     }
 
-
+    @PutMapping
+    public Cinema changeCinema(
+            @RequestBody CinemaDTO cinemaDTO
+    ){
+        return cinemaService.saveCinema(transitionDTO.fromDto(cinemaDTO));
+    }
 
 }

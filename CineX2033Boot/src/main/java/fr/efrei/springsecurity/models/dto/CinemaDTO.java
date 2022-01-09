@@ -7,6 +7,8 @@ import java.util.List;
 @Data
 public class CinemaDTO {
 
+    private Long id;
+
     private String nom;
 
     private List<Long> listefilm;

@@ -42,5 +42,10 @@ public class AdresseController {
         return adresseService.getallAdresse();
     }
 
-
+    @PutMapping
+    public Adresse changeAdresse(
+            @RequestBody Adresse adresse
+    ){
+        return adresseService.saveAdresse(adresse);
+    }
 }

@@ -30,6 +30,7 @@ public class TransitionDTO {
 
     public Cinema fromDto(CinemaDTO cinemaDTO){
         Cinema cinema = new Cinema();
+        cinema.setCinema_id(cinemaDTO.getId());
         cinema.setNom(cinemaDTO.getNom());
         cinema.setAdresse(adresseService.getAdresse(cinemaDTO.getAdresseId()));
         List<Film> films = new ArrayList<>();
@@ -42,6 +43,7 @@ public class TransitionDTO {
 
     public Film fromDto(FilmDTO filmDTO){
         Film film = new Film();
+        film.setFilm_id(filmDTO.getId());
         film.setTitre(filmDTO.getTitre());
         film.setDuree(filmDTO.getDuree());
         film.setLangues(filmDTO.getLangues());
@@ -49,7 +51,7 @@ public class TransitionDTO {
         film.setDateF(filmDTO.getDateD());
         film.setMinage(filmDTO.getMinage());
         film.setImgurl(filmDTO.getImgurl());
-        film.setProducteur(filmDTO.getProducteur());
+        film.setProducteur(personneService.getPersonne(filmDTO.getProducteurId()));
         List<Personne> acteurs = new ArrayList<>();
         for (Long id: filmDTO.getActeurs()) {
             acteurs.add(personneService.getPersonne(id));
@@ -60,6 +62,7 @@ public class TransitionDTO {
 
     public Seance fromDto(SeanceDTO seanceDTO){
         Seance seance = new Seance();
+        seance.setId(seanceDTO.getId());
         seance.setCinema(cinemaService.getCinema(seanceDTO.getCinemaId()));
         seance.setFilm(filmService.getFilm(seanceDTO.getFilmId()));
         seance.setDateD(seanceDTO.getDateD());

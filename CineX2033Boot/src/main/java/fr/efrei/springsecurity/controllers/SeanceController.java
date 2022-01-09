@@ -37,5 +37,12 @@ public class SeanceController {
     public List<Seance> getAllSeance() {
         return seanceService.getAllSeance();
     }
+
+    @PutMapping
+    public Seance changeSeance(
+            @RequestBody SeanceDTO seanceDTO
+    ){
+        return seanceService.saveSeance(transitionDTO.fromDto(seanceDTO));
+    }
     
 }

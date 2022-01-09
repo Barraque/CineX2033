@@ -7,6 +7,8 @@ import java.util.Date;
 @Data
 public class SeanceDTO {
 
+    private Long id;
+
     private Long FilmId;
 
     private Long CinemaId;

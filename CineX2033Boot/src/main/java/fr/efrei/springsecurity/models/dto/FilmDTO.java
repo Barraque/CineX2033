@@ -14,13 +14,15 @@ import java.util.List;
 @Data
 public class FilmDTO {
 
+    private Long id;
+
     private String titre;
 
     private int duree;
 
     private Langue_film langues;
 
-    private Personne producteur;
+    private Long producteurId;
 
     private List<Long> acteurs;
 

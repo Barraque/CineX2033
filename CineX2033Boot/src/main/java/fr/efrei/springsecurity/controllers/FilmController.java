@@ -44,7 +44,7 @@ public class FilmController {
     ) {
        if(ville.isPresent()){
            List<Cinema> cinemas = cinemaService.getCinemaFromVille(ville.get());
-           List<Film> films = new ArrayList<Film>();
+           List<Film> films = new ArrayList<>();
            for (Cinema cinema:cinemas) {
                for (Film film : cinema.getFilms()) {
                    if(!films.contains(film)) {
@@ -57,6 +57,11 @@ public class FilmController {
        return filmService.getallFilm();
     }
 
-
+    @PutMapping
+    public Film changeFilm(
+            @RequestBody FilmDTO filmDTO
+    ){
+        return filmService.saveFilm(transitionDTO.fromDto(filmDTO));
+    }
 
 }
