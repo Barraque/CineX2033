@@ -33,7 +33,7 @@ public class CinemaController {
     }
 
     @GetMapping("")
-    public List<Cinema> getAllFilm() {
+    public List<Cinema> getAllCinema() {
         return cinemaService.getallCinema();
     }
 

@@ -28,6 +28,10 @@ public class FilmController {
     ){
         return filmService.getFilm(id);
     }
+    @GetMapping("")
+    public List<Film> getAllFilm() {
+        return filmService.getallFilm();
+    }
 
 
 }
