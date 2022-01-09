@@ -30,4 +30,18 @@ public class CinemaService {
     public List<Cinema> getallCinema(){
         return cinemaRepository.findAll();
     }
+
+    public List<Cinema> getCinemaFromVille(String ville){
+        List<Cinema> cinemas = getallCinema();
+        List<Cinema> cinemadeville = new ArrayList<Cinema>();
+        for (Cinema cinema: cinemas) {
+            if(cinema.getAdresse().getVille().equals(ville)){
+                cinemadeville.add(cinema);
+            }
+        }
+        return cinemadeville;
+    }
+
+
+
 }

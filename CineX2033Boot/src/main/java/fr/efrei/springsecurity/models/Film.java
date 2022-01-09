@@ -51,4 +51,7 @@ public class Film {
     @JsonFormat(pattern = "dd/MM/yyyy")
     private Date dateF;
 
+    @Column(name = "urlimg", nullable = false)
+    private String imgurl;
+
 }

@@ -26,7 +26,7 @@ public class CinemaController {
     }
 
     @GetMapping("{id}")
-    public Cinema getFilm(
+    public Cinema getCinema(
             @PathVariable(name = "id") Long id
     ){
         return cinemaService.getCinema(id);
@@ -37,5 +37,22 @@ public class CinemaController {
         return cinemaService.getallCinema();
     }
 
+    @GetMapping("{id}/films")
+    public List<Film> getFilmFromACinema(
+            @PathVariable(name = "id") Long id){
+        return getCinema(id).getFilms();
+    }
+
+    @PostMapping("{id}/films")
+    public Cinema addFilmToCinema(
+            @PathVariable(name= "id") Long id,
+            @RequestBody Film film
+    ){
+        Cinema cinema = getCinema(id);
+        if(!cinema.getFilms().contains(film))
+            cinema.getFilms().add(film);
+        return cinemaService.saveCinema(cinema);
+
+    }
 
 }
