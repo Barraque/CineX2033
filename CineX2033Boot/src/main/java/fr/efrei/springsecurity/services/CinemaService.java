@@ -1,8 +1,9 @@
-package fr.efrei.springsecurity.services.auth;
+package fr.efrei.springsecurity.services;
 
 
 import fr.efrei.springsecurity.models.Cinema;
 import fr.efrei.springsecurity.models.Film;
+import fr.efrei.springsecurity.models.dto.CinemaDTO;
 import fr.efrei.springsecurity.repositories.CinemaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,6 +17,7 @@ public class CinemaService {
 
     @Autowired
     CinemaRepository cinemaRepository;
+
 
     public Cinema saveCinema(final Cinema cinema){
 
@@ -41,7 +43,5 @@ public class CinemaService {
         }
         return cinemadeville;
     }
-
-
 
 }

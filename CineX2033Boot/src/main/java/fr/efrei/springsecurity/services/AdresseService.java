@@ -1,4 +1,4 @@
-package fr.efrei.springsecurity.services.auth;
+package fr.efrei.springsecurity.services;
 
 import fr.efrei.springsecurity.models.Adresse;
 import fr.efrei.springsecurity.repositories.AdresseRepository;
