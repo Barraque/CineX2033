@@ -31,98 +31,33 @@
     <br>
     <h1 class="titleall">Cinemas</h1>
     <br>
-    <table class="table">
-        <thead>
+    <div class="cinemas" id="cinemas">
+    <script>
 
-        </thead>
-        <tbody>
-        <tr>
-            <td>  <div class="cinema">
-                <b><h1  class="titre"> Pathé Paris 15</h1></b>
-                <p class="adresse"> 18 rue Jean pierre </p>
-                <p class="zipville">75015 Paris</p>
-            </div>
-            </td>
-            <td>  <div class="cinema">
-                <b><h1  class="titre"> Pathé Paris 15</h1></b>
-                <p class="adresse"> 18 rue Jean pierre </p>
-                <p class="zipville">75015 Paris</p>
-            </div>
+        function createCinema (nom,adresse,ville) {
+            let div = document.createElement('div');
+            div.classList.add("cinema");
+            let tit = document.createElement('h1');
+            tit.innerText = nom;
+            let add = document.createElement('p');
+            add.innerText = adresse;
+            let v = document.createElement('p');
+            v.innerText = ville;
+            div.appendChild(tit);
+            div.appendChild(add);
+            div.appendChild(v);
+            return div;
 
-                </div>
-            </td>
-            <td>
-                <div class="cinema">
-                    <b><h1  class="titre"> Pathé Paris 15</h1></b>
-                    <p class="adresse"> 18 rue Jean pierre </p>
-                    <p class="zipville">75015 Paris</p>
-                </div>
-
-
-            </td>
-        </tr>
-        <tr>
-            <td>  <div class="cinema">
-                <b><h1  class="titre"> Pathé Paris 15</h1></b>
-                <p class="adresse"> 18 rue Jean pierre </p>
-                <p class="zipville">75015 Paris</p>
-            </div>
-
-                </div>
-            </td>
-            <td>  <div class="cinema">
-                <b><h1  class="titre"> Pathé Paris 15</h1></b>
-                <p class="adresse"> 18 rue Jean pierre </p>
-                <p class="zipville">75015 Paris</p>
-            </div>
-
-                </div>
-            </td>
-            <td>  <div class="cinema">
-                <b><h1  class="titre"> Pathé Paris 15</h1></b>
-                <p class="adresse"> 18 rue Jean pierre </p>
-                <p class="zipville">75015 Paris</p>
-            </div>
-
-                </div>
-            </td>
-
-
-            </div>
-            </td>
-        </tr>
-        <tr>
-            <td>  <div class="cinema">
-                <b><h1  class="titre"> Pathé Paris 15</h1></b>
-                <p class="adresse"> 18 rue Jean pierre </p>
-                <p class="zipville">75015 Paris</p>
-            </div>
-
-                </div>
-            </td>
-            <td>  <div class="cinema">
-                <b><h1  class="titre"> Pathé Paris 15</h1></b>
-                <p class="adresse"> 18 rue Jean pierre </p>
-                <p class="zipville">75015 Paris</p>
-            </div>
-
-                </div>
-            </td>
-            <td>  <div class="cinema">
-                <b><h1  class="titre"> Pathé Paris 15</h1></b>
-                <p class="adresse"> 18 rue Jean pierre </p>
-                <p class="zipville">75015 Paris</p>
-            </div>
-
-                </div>
-            </td>
-
-
-            </div>
-            </td>
-        </tr>
-        </tbody>
-    </table>
+        }
+        window.onload =  async function () {
+            const response = await fetch("http://localhost:8080/cinemas");
+            const cinemas = await response.json();
+            table = document.getElementById("cinemas");
+            cinemas.forEach(cinema => {
+                table.appendChild(createCinema(cinema.nom,cinema.adresse.rue, cinema.adresse.codepostal + " " + cinema.adresse.ville,));
+            })
+        }
+    </script>
 
 </main>
 

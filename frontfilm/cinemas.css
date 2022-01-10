@@ -2,7 +2,7 @@
 .cinema {
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
     max-width: 300px;
-    margin: auto;
+
     text-align: center;
     font-family: arial;
     padding:2px 5px;
@@ -24,10 +24,9 @@
     font-size: 22px;
 }
 
-.table {
-    margin-left: auto;
-    margin-right: auto;
-    border-spacing: 10px;
+.cinemas {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
 }
 
 .titretable {
