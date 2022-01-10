@@ -1,4 +1,4 @@
-package fr.efrei.springsecurity.services.auth;
+package fr.efrei.springsecurity.services;
 
 import fr.efrei.springsecurity.models.Role;
 import fr.efrei.springsecurity.models.UserEntity;

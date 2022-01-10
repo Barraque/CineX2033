@@ -1,7 +1,9 @@
 package fr.efrei.springsecurity.models;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -9,6 +11,8 @@ import java.util.Date;
 @Data
 @Table
 @Entity
+@AllArgsConstructor
+@NoArgsConstructor
 public class Personne {
 
     @Id
@@ -23,12 +27,12 @@ public class Personne {
     private String nom;
 
     @Column(name="daten", nullable = false)
-    @JsonFormat(pattern = "dd/MM/yyy")
+    @JsonFormat(pattern = "dd/MM/yyyy")
     private Date daten;
 
-    @Column(name="titre", nullable = false)
+    @Column(name="estActeur", nullable = false)
     private boolean estActeur;
 
-    @Column(name="titre", nullable = false)
+    @Column(name="estProducteur", nullable = false)
     private boolean estProducteur;
 }

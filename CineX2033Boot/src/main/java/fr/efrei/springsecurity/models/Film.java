@@ -2,7 +2,9 @@ package fr.efrei.springsecurity.models;
 
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -11,7 +13,10 @@ import java.util.List;
 @Data
 @Table
 @Entity
-public class Films {
+@AllArgsConstructor
+@NoArgsConstructor
+public class Film {
+
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,22 +33,25 @@ public class Films {
     private Langue_film langues;
 
     @ManyToOne
-    @Column(name="producteur", nullable = false)
+    @JoinColumn (name = "personne_id")
     private Personne producteur;
 
     @ManyToMany
-    @Column(name="acteurs", nullable = false)
+    @JoinColumn (name = "personne_id")
     private List<Personne> acteurs;
 
     @Column(name="minage", nullable = false)
     private int minage;
 
     @Column(name="dateD", nullable = false)
-    @JsonFormat(pattern = "dd/MM/yyy")
+    @JsonFormat(pattern = "dd/MM/yyyy")
     private Date dateD;
 
     @Column(name="dateF", nullable = false)
-    @JsonFormat(pattern = "dd/MM/yyy")
+    @JsonFormat(pattern = "dd/MM/yyyy")
     private Date dateF;
+
+    @Column(name = "urlimg", nullable = false)
+    private String imgurl;
 
 }

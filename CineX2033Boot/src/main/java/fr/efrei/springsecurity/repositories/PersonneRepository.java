@@ -1,10 +1,10 @@
 package fr.efrei.springsecurity.repositories;
 
-import fr.efrei.springsecurity.models.Film;
+import fr.efrei.springsecurity.models.Personne;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-@Repository
-public interface FilmRepository  extends JpaRepository<Film, Long> {
-
-}
+    @Repository
+    public interface PersonneRepository  extends JpaRepository<Personne, Long> {
+    }
