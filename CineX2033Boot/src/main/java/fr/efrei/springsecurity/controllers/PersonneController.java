@@ -34,5 +34,12 @@ public class PersonneController {
         return personneService.getallPersonne();
     }
 
+    @PutMapping
+    public Personne changePersonne(
+        @RequestBody Personne personne
+    ){
+        return personneService.savePersonne(personne);
+    }
+
 
 }
