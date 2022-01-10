@@ -36,19 +36,19 @@ background: #ebecf0;
     font-family: arial;
 }
 
-.titre {
+#table h1 {
     color: black;
     font-size: 30px;
 }
 
-.texte {
+.table p {
     color: darkgrey;
     font-size: 22px;
 }
 
 
 
-.table {
+#table {
     margin-left: auto;
     margin-right: auto;
 }
