@@ -31,18 +31,21 @@
         <div class="films" id="films">
           <script>
 
-              function createMovie (imgsrc,titre,duree,real) {
+              function createMovie (id,imgsrc,titre,duree,real) {
                   let div = document.createElement('div');
                   div.classList.add("film");
+                  let a = document.createElement('a');
+                  a.href = "film.html?id=" + id;
                   let img = document.createElement('img');
                   img.src = imgsrc;
+                  a.appendChild(img);
                   let tit = document.createElement('h1');
                   tit.innerText = titre;
                   let dur = document.createElement('p');
                   dur.innerText = duree;
                   let realisateur = document.createElement('p');
                   realisateur.innerText = real;
-                  div.appendChild(img);
+                  div.appendChild(a);
                   div.appendChild(tit);
                   div.appendChild(dur);
                   div.appendChild(realisateur);
@@ -54,11 +57,8 @@
                   const films = await response.json();
                   table = document.getElementById("films");
                   films.forEach(film => {
-                        table.appendChild(createMovie(film.imgurl, film.titre, film.duree, film.producteur.nom));
-                  })
-                  films.forEach(film => {
-                      table.appendChild(createMovie(film.imgurl, film.titre, film.duree, film.producteur.nom));
-                  })
+                        table.appendChild(createMovie(film.film_id, film.imgurl, film.titre, film.duree, film.producteur.nom));
+                  });
               }
           </script>
         </div>
