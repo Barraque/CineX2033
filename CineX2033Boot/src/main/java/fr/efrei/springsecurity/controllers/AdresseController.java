@@ -12,6 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("adresses")
+@CrossOrigin(origins = "*", maxAge = 3600)
 public class AdresseController {
 
     @Autowired

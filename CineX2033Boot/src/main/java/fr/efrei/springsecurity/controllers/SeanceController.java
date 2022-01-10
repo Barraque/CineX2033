@@ -11,6 +11,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("seances")
+@CrossOrigin(origins = "*", maxAge = 3600)
 public class SeanceController {
 
     @Autowired
