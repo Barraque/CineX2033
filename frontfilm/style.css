@@ -5,6 +5,7 @@
     font-family: 'Roboto';
 }
 
+
 /* navbar ============================================= */
 nav {
     position: sticky;
@@ -12,6 +13,11 @@ nav {
     z-index: 1;
 }
 
+.main{
+    width: 60%;
+    margin-left: auto;
+    margin-right: auto;
+}
 .topnav {
     margin          : auto;
     padding         : 0;
@@ -105,6 +111,6 @@ body {
 
   @media screen and (min-width: 1024px) {
     main {
-        width:70%;
+        width:100%;
     }
   }
