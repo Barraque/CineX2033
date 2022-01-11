@@ -45,19 +45,21 @@
 
             $("#but").click( function () {
                 var header = "Basic " + btoa(document.getElementById("username").value + ":" + document.getElementById("password").value);
-                console.log(header);
                 document.cookie = "Authorization=" + header + "; secure";
-                const response = fetch("https://localhost:8080/auth",{ method: 'GET', mode :"cors",
+                const response = fetch("http://localhost:8080/auth",{ method: 'GET',
                     headers: {
                         'Authorization' : getAuthCookie(),
                         'Access-Control-Allow-Origin': '*'
                     }});
-                if(response.status !== 200){
-                    alert("mauvais mot de passe");
-                }
-                else {
+                response.then(  function (response) {
+                    if(response.status !== 200){
+                        alert("mauvais mot de passe");
+                    }
+                  else {
                     alert("vous etes connecte")
                 }
+            });
+
             });
         </script>
     </div>
