@@ -13,6 +13,12 @@
 
 }
 
+.add{
+    position: center;
+    top: 1%;
+    right: 5%;
+}
+
 /* navbar ============================================= */
 nav {
     position: sticky;
