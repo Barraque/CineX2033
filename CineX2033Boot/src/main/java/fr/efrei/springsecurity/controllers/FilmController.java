@@ -65,4 +65,12 @@ public class FilmController {
         return filmService.saveFilm(transitionDTO.fromDto(filmDTO));
     }
 
+    @DeleteMapping("{id}")
+    public String delFilm(
+            @PathVariable("id") Long id
+    ){
+        filmService.delFilm(id);
+        return "Objet supprimé";
+    }
+
 }

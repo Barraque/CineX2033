@@ -42,5 +42,13 @@ public class PersonneController {
         return personneService.savePersonne(personne);
     }
 
+    @DeleteMapping("{id}")
+    public String delPersonne(
+            @PathVariable("id") Long id
+    ){
+        personneService.delPersonne(id);
+        return "Objet supprimé";
+    }
+
 
 }

@@ -49,4 +49,12 @@ public class AdresseController {
     ){
         return adresseService.saveAdresse(adresse);
     }
+
+    @DeleteMapping("{id}")
+    public String delAdresse(
+            @PathVariable(name = "id") Long id
+    ){
+        adresseService.delAdresse(id);
+        return "Objet supprimé";
+    }
 }

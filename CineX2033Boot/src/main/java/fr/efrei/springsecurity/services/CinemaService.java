@@ -44,4 +44,8 @@ public class CinemaService {
         return cinemadeville;
     }
 
+    public void delCinema(Long id){
+        cinemaRepository.delete(getCinema(id));
+    }
+
 }

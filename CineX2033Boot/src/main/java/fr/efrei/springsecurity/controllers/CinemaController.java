@@ -70,4 +70,12 @@ public class CinemaController {
         return cinemaService.saveCinema(transitionDTO.fromDto(cinemaDTO));
     }
 
+    @DeleteMapping("{id}")
+    public String delCinema(
+            @PathVariable("id") Long id
+    ){
+        cinemaService.delCinema(id);
+        return "Objet supprimé";
+    }
+
 }

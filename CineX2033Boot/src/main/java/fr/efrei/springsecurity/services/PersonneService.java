@@ -30,4 +30,7 @@ public class PersonneService {
         return personneRepository.findAll();
     }
 
+    public void delPersonne(Long id){
+        personneRepository.delete(getPersonne(id));
+    }
 }

@@ -1,9 +1,7 @@
 package fr.efrei.springsecurity.services;
 
 
-import fr.efrei.springsecurity.exceptions.GlobalException;
 import fr.efrei.springsecurity.models.Film;
-import fr.efrei.springsecurity.repositories.CinemaRepository;
 import fr.efrei.springsecurity.repositories.FilmRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,4 +30,7 @@ public class FilmService {
         return filmRepository.findAll();
     }
 
+    public void delFilm(Long id){
+        filmRepository.delete(getFilm(id));
+    }
 }

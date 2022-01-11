@@ -45,5 +45,13 @@ public class SeanceController {
     ){
         return seanceService.saveSeance(transitionDTO.fromDto(seanceDTO));
     }
+
+    @DeleteMapping("{id}")
+    public String delSeance(
+            @PathVariable("id") Long id
+    ){
+        seanceService.delSeance(id);
+        return "Objet supprimé";
+    }
     
 }

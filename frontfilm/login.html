@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" type="text/css" href="style.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
     <title>Film Master</title>
 </head>
 
@@ -17,19 +18,48 @@
     <div class="login-form">
 
 
-        <form>
             <h2 class="text-center">Connexion</h2>
             <div class="form-group">
-                <input type="text" name="pseudo" class="form-control" placeholder="Pseudo" required="required" autocomplete="off">
+                <input id="username" type="text" name="pseudo" class="form-control" placeholder="Pseudo" required="required" autocomplete="off">
             </div>
             <div class="form-group">
-                <input type="password" name="password" class="form-control" placeholder="Mot de passe" required="required" autocomplete="off">
+                <input id="password" type="password" name="password" class="form-control" placeholder="Mot de passe" required="required" autocomplete="off">
             </div>
 
             <div class="form-group">
-                <button type="submit" class="btn btn-primary btn-block">Connexion</button>
+                <button id="but" type="submit">Connexion</button>
             </div>
-        </form>
+        <script>
+            function getAuthCookie() {
+                var cn = "Authorization=";
+                var idx = document.cookie.indexOf(cn)
+
+                if (idx !== -1) {
+                    var end = document.cookie.indexOf(";", idx + 1);
+                    if (end === -1) end = document.cookie.length;
+                    return unescape(document.cookie.substring(idx + cn.length, end));
+                } else {
+                    return "";
+                }
+            }
+
+            $("#but").click( function () {
+                var header = "Basic " + btoa(document.getElementById("username").value + ":" + document.getElementById("password").value);
+                console.log(header);
+                document.cookie = "Authorization=" + header + "; secure";
+                const response = fetch("https://localhost:8080/auth",{ method: 'GET', mode :"cors",
+                    headers: {
+                        'Authorization' : getAuthCookie(),
+                        'Access-Control-Allow-Origin': '*'
+                    }});
+                if(response.status !== 200){
+                    alert("mauvais mot de passe");
+                }
+                else {
+                    alert("vous etes connecte")
+                }
+            });
+        </script>
     </div>
 </div>
 </body>

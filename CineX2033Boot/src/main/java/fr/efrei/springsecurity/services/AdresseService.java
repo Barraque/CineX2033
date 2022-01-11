@@ -28,4 +28,8 @@ public class AdresseService {
         return adresseRepository.findAll();
     }
 
+    public void delAdresse(Long id){
+        adresseRepository.delete(getAdresse(id));
+    }
+
 }
