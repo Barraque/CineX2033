@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" type="text/css" href="produit.css">
+    <title>Film Master</title>
+
+
+
+</head>
+<body>
+<header>
+
+    <nav id="mainTopNav" class="topnav">
+        <a href="films.html">Films</a>
+        <a href="cinemas.html">Cinemas</a>
+        <a href="Recherche.html">Seances</a>
+        <a href="Recherche.html">Recherche</a>
+        <a href="addfilm.html">Ajouter un film </a>
+
+
+    </nav>
+
+
+</header>
+<div class="login-form">
+
+</div>
+<div class="login-form">
+
+    <form>
+        <h2 class="text-center">Ajouter un film</h2>
+        <div class="form-group">
+            <p>Nom du film</p>
+            <input type="text" name="Nom du film" class="form-control" placeholder="Nom du film" required="required" autocomplete="off">
+        </div>
+        <div class="form-group">
+            <p>Durée du film</p>
+            <input type="text" name="Durée du film" class="form-control" placeholder="Durée du film" required="required" autocomplete="off">
+        </div>
+        <div class="form-group">
+            <p>Langue du film</p>
+            <input type="text" name="Langue du film" class="form-control" placeholder="Langue du film" required="required" autocomplete="off">
+        </div>
+        <div class="form-group">
+            <p>ID du producteur du film</p>
+            <input type="text" name="ID du producteur du film" class="form-control" placeholder="ID du producteur du film" required="required" autocomplete="off">
+        </div>
+        <p>Saisir le nom des acteurs</p>
+
+        <select id="monselect">
+
+            <option value="valeur1">Valeur 1</option>
+            <option value="valeur2" selected>Valeur 2</option>
+            <option value="valeur3">Valeur 3</option>
+        </select>
+
+        <div class="form-group">
+            <p>Age minimun pour regarder le film</p>
+            <input type="text" name="Age minimun pour regarder le film" class="form-control" placeholder="Age minimun pour regarder le film" required="required" autocomplete="off">
+        </div>
+        <div class="form-group">
+            <p>Date de début de diffusion</p>
+            <input type="text" name="Date de début de diffusion" class="form-control" placeholder="Date de début de diffusion" required="required" autocomplete="off">
+        </div>
+        <div class="form-group">
+            <p>Date de fin de diffusion</p>
+            <input type="text" name="Date de fin de diffusion" class="form-control" placeholder="Date de fin de diffusion" required="required" autocomplete="off">
+        </div>
+
+        <div class="form-group">
+            <p>URL du la jacket du film</p>
+            <input type="text" name="URL du la jacket du film" class="form-control" placeholder="URL du la jacket du film" required="required" autocomplete="off">
+        </div>
+        <br>
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary btn-block">Ajouter un film</button>
+        </div>
+    </form>
+
+    <table style="border:1px solid black">
+        <tr><b><td>Nom</td><td>Durée du film</td><td>Langue du film</td><td>Modifier</td><td>Supprimer</td></b></tr>
+    </table>
+</div>
+
+<div class="login-form">
+    <form>
+        <h2 class="text-center">Ajouter une séance</h2>
+        <div class="form-group">
+            <p>ID du film</p>
+            <input type="text" name="ID du film" class="form-control" placeholder="ID du film" required="required" autocomplete="off">
+        </div>
+        <div class="form-group">
+            <p>ID du Cinema</p>
+            <input type="text" name="ID du Cinema" class="form-control" placeholder="ID du Cinema" required="required" autocomplete="off">
+        </div>
+        <div class="form-group">
+            <p>Date de début de diffusion de la séance</p>
+            <input type="text" name="Date de début de diffusion" class="form-control" placeholder="Date de début de diffusion de la séance" required="required" autocomplete="off">
+        </div>
+        <div class="form-group">
+            <p>Date de fin de diffusion de la séance</p>
+            <input type="text" name="Date de fin de diffusion" class="form-control" placeholder="Date de fin de diffusion de la séance" required="required" autocomplete="off">
+        </div>
+
+        <br>
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary btn-block">Ajouter une seance</button>
+        </div>
+    </form>
+    <table style="border:1px solid black">
+
+        <tr><b><td>ID du film</td><td>ID du Cinema</td><td>Date de début de diffusion de la séance</td><td>Date de fin de diffusion de la séance</td><td>Modifier</td><td>Supprimer</td></b></tr>
+    </table>
+</div>
+
+<style>
+    .login-form {
+        width: 50%;
+        margin: 50px auto;
+    }
+    .login-form form {
+        margin-bottom: 15px;
+        background: rgba(78, 64, 64, 0.03);
+        box-shadow: 0px 5px 5px rgba(0, 0, 0, 1);
+        padding: 30px;
+    }
+    .login-form h2 {
+        margin: 0 0 15px;
+    }
+    .form-control, .btn {
+        min-height: 38px;
+        border-radius: 2px;
+    }
+    .btn {
+        font-size: 15px;
+        font-weight: bold;
+    }
+</style>
+</body>
+</html>
