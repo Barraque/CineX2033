@@ -5,15 +5,15 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" type="text/css" href="style.css">
-    <link rel="stylesheet" type="text/css" href="film.css">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link rel="stylesheet" type="text/css" href="css/film.css">
     <title>Film Master</title>
 </head>
 
 <body>
 <header>
     <!-- Click sur image pour retourner à l'accueil -->
-    <a href="index.html"> <img src="logo.png"> </a>
+    <a href="index.html"> <img src="data/logo.png"> </a>
 </header>
 
 <nav id="mainTopNav" class="topnav">
@@ -62,6 +62,7 @@
                     let p = document.createElement("p");
                     p.innerText = film.duree + " minutes"; tdi.appendChild(p);p = document.createElement("p");
                     p.innerText = "Realisateur : " + film.producteur.nom; tdi.appendChild(p);p = document.createElement("p");
+                    console.log(film.acteurs)
                     film.acteurs.forEach(acteur => {
                         p.innerText = "Acteurs : " + acteur.nom; tdi.appendChild(p);p = document.createElement("p");
                     })

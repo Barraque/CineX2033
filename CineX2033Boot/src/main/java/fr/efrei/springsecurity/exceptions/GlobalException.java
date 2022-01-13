@@ -1,6 +1,7 @@
 package fr.efrei.springsecurity.exceptions;
 
 
+import org.hibernate.PropertyValueException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -22,11 +23,11 @@ public class GlobalException  extends  Exception{
         );
     }
 
-    @ExceptionHandler(value = NoHandlerFoundException.class)
+    @ExceptionHandler(value = PropertyValueException.class)
     public ResponseEntity<String> badDataException(
-           String msg) {
+           final PropertyValueException msg) {
         return new ResponseEntity<>(
-               msg,
+               msg.getMessage(),
                 HttpStatus.BAD_REQUEST
         );
     }

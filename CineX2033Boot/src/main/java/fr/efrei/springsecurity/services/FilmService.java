@@ -42,7 +42,7 @@ public class FilmService {
     public Film proccesPersonne(Film film) throws BadReqException {
         ArrayList<Personne> acteurs = new ArrayList<>();
         for (Personne acteur: film.getActeurs()){
-            if((acteur.isEstActeur()) && acteurs.contains(acteur)){
+            if((acteur.isEstActeur()) && !acteurs.contains(acteur)){
                 acteurs.add(acteur);
             }
         }

@@ -2,14 +2,12 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
     <link rel="stylesheet" type="text/css" href="../css/style.css">
     <title>Film Master</title>
-
-
 
 </head>
 <body>
@@ -21,8 +19,6 @@
         <a href="../seances.html">Seances</a>
         <a href="../recherche.html">Recherche</a>
         <a href="../addfilm.html">Ajouter un film </a>
-
-
     </nav>
 
 
@@ -32,55 +28,176 @@
 </div>
 <div class="login-form">
 
-    <form>
-        <h2 class="text-center">Ajouter un film</h2>
-        <div class="form-group">
-            <p>Nom du film</p>
-            <input type="text" name="Nom du film" class="form-control" placeholder="Nom du film" required="required" autocomplete="off">
-        </div>
-        <div class="form-group">
-            <p>Durée du film</p>
-            <input type="text" name="Durée du film" class="form-control" placeholder="Durée du film" required="required" autocomplete="off">
-        </div>
-        <div class="form-group">
-            <p>Langue du film</p>
-            <input type="text" name="Langue du film" class="form-control" placeholder="Langue du film" required="required" autocomplete="off">
-        </div>
-        <div class="form-group">
-            <p>ID du producteur du film</p>
-            <input type="text" name="ID du producteur du film" class="form-control" placeholder="ID du producteur du film" required="required" autocomplete="off">
-        </div>
-        <p>Saisir le nom des acteurs</p>
+    <h2 class="text-center">Ajouter un film</h2>
+    <div class="form-group">
+        <p>Nom du film</p>
+        <input id="nom" type="text" name="Nom du film" class="form-control" placeholder="Nom du film" required="required" autocomplete="off">
+    </div>
+    <div class="form-group">
+        <p>Durée du film</p>
+        <input id="duree" type="text" name="Durée du film" class="form-control" placeholder="Durée du film" required="required" autocomplete="off">
+    </div>
+    <div class="form-group">
+        <p>Langue du film</p>
+        <select id="langue"></select>
+    </div>
+    <div class="form-group">
+        <p>ID du producteur du film</p>
+        <select id="producteur"></select>
+    </div>
+    <p>Saisir le nom des acteurs</p>
 
-        <select id="monselect">
+    <select id="acteurs1">
+        <option value="-1">null</option>
+    </select>
+    <select id="acteurs2">
+        <option value="-1">null</option>
+    </select>
+    <select id="acteurs3">
+        <option value="-1">null</option>
+    </select>
 
-            <option value="valeur1">Valeur 1</option>
-            <option value="valeur2" selected>Valeur 2</option>
-            <option value="valeur3">Valeur 3</option>
-        </select>
+    <div class="form-group">
+        <p>Age minimun pour regarder le film</p>
+        <input id="age" type="text" name="Age minimun pour regarder le film" class="form-control" placeholder="Age minimun pour regarder le film" required="required" autocomplete="off">
+    </div>
+    <div class="form-group">
+        <p>Date de début de diffusion</p>
+        <input id="dated" type="text" name="Date de début de diffusion" class="form-control" placeholder="Date de début de diffusion" required="required" autocomplete="off">
+    </div>
+    <div class="form-group">
+        <p>Date de fin de diffusion</p>
+        <input id="datef" type="text" name="Date de fin de diffusion" class="form-control" placeholder="Date de fin de diffusion" required="required" autocomplete="off">
+    </div>
 
-        <div class="form-group">
-            <p>Age minimun pour regarder le film</p>
-            <input type="text" name="Age minimun pour regarder le film" class="form-control" placeholder="Age minimun pour regarder le film" required="required" autocomplete="off">
-        </div>
-        <div class="form-group">
-            <p>Date de début de diffusion</p>
-            <input type="text" name="Date de début de diffusion" class="form-control" placeholder="Date de début de diffusion" required="required" autocomplete="off">
-        </div>
-        <div class="form-group">
-            <p>Date de fin de diffusion</p>
-            <input type="text" name="Date de fin de diffusion" class="form-control" placeholder="Date de fin de diffusion" required="required" autocomplete="off">
-        </div>
+    <div class="form-group">
+        <p>URL du la jacket du film</p>
+        <input id="imgurl" type="text" name="URL du la jacket du film" class="form-control" placeholder="URL du la jacket du film" required="required" autocomplete="off">
+    </div>
+    <br>
+    <div class="form-group">
+        <button id="but" type="submit" class="btn btn-primary btn-block">Ajouter un film</button>
+    </div>
 
-        <div class="form-group">
-            <p>URL du la jacket du film</p>
-            <input type="text" name="URL du la jacket du film" class="form-control" placeholder="URL du la jacket du film" required="required" autocomplete="off">
-        </div>
-        <br>
-        <div class="form-group">
-            <button type="submit" class="btn btn-primary btn-block">Ajouter un film</button>
-        </div>
-    </form>
+    <script>
+
+        function getAuthCookie() {
+            var cn = "Authorization=";
+            var idx = document.cookie.indexOf(cn)
+
+            if (idx !== -1) {
+                var end = document.cookie.indexOf(";", idx + 1);
+                if (end === -1) end = document.cookie.length;
+                return unescape(document.cookie.substring(idx + cn.length, end));
+            } else {
+                return "";
+            }
+        }
+
+        async function getActeurs() {
+            const response = await fetch("http://localhost:8080/personnes");
+            const personnes = await response.json();
+            var acteurs1 = document.getElementById("acteurs1")
+            var acteurs2 = document.getElementById("acteurs2")
+            var acteurs3 = document.getElementById("acteurs3")
+            personnes.forEach(personne => {
+                if(personne.estActeur === true){
+                    var opt = document.createElement("option");
+                    opt.value = personne.personne_id;
+                    opt.innerText = personne.prenom + " " + personne.nom;
+                    acteurs1.appendChild(opt);
+                    opt = document.createElement("option");
+                    opt.value = personne.personne_id;
+                    opt.innerText = personne.prenom + " " + personne.nom;
+                    acteurs2.appendChild(opt);
+                    opt = document.createElement("option");
+                    opt.value = personne.personne_id;
+                    opt.innerText = personne.prenom + " " + personne.nom;
+                    acteurs3.appendChild(opt);
+                }
+            });
+        }
+
+        async function getProducteur() {
+            const response = await fetch("http://localhost:8080/personnes");
+            const personnes = await response.json();
+            var producteur = document.getElementById("producteur")
+            personnes.forEach(personne => {
+                if(personne.estProducteur === true){
+                    var opt = document.createElement("option");
+                    opt.value = personne.personne_id;
+                    opt.innerText = personne.prenom + " " + personne.nom;
+                    producteur.appendChild(opt);
+                }
+            });
+        }
+
+        async function getLangues() {
+            const response = await fetch("http://localhost:8080/films/getLangues");
+            const langues = await response.json();
+            var select = document.getElementById("langue")
+            langues.forEach(langue => {
+                var opt = document.createElement("option");
+                opt.value = langue;
+                opt.innerText = langue;
+                select.appendChild(opt);
+            });
+        }
+        window.onload = () => {
+            getProducteur()
+            getLangues()
+            getActeurs()
+        };
+
+        $("#but").click(async function () {
+            acteurs = [];
+            var sel = document.getElementById("acteurs1");
+            if (sel.options[sel.selectedIndex].value != -1) {
+                acteurs.push(sel.options[sel.selectedIndex].value);
+            }
+
+            sel = document.getElementById("acteurs2");
+            console.log(sel.options[sel.selectedIndex].value)
+            if (sel.options[sel.selectedIndex].value != -1) {
+                acteurs.push(sel.options[sel.selectedIndex].value);
+            }
+
+            sel = document.getElementById("acteurs3");
+            if (sel.options[sel.selectedIndex].value != -1) {
+                acteurs.push(sel.options[sel.selectedIndex].value);
+            }
+
+            langue = document.getElementById("langue");
+            producteur = document.getElementById("producteur");
+            film = {
+                "titre": document.getElementById("nom").value,
+                "dateD": document.getElementById("dated").value,
+                "dateF": document.getElementById("datef").value,
+                "duree": document.getElementById("duree").value,
+                "imgurl": document.getElementById("imgurl").value,
+                "langues": langue.options[langue.selectedIndex].value,
+                "minage": document.getElementById("age").value,
+                "producteurId": producteur.options[producteur.selectedIndex].value,
+                "acteurs": acteurs
+            }
+            console.log(film);
+            const response = fetch("http://localhost:8080/films", {
+                method: 'POST',
+                headers: {
+                    'Authorization': getAuthCookie(),
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(film)
+            });
+            response.then(  function (response) {
+                if (response.status !== 200) {
+                    alert("probleme " + response.status)
+                } else {
+                    alert("film ajouté")
+                }
+            });
+        });
+    </script>
 
     <table style="border:1px solid black">
         <tr><b><td>Nom</td><td>Durée du film</td><td>Langue du film</td><td>Modifier</td><td>Supprimer</td></b></tr>
