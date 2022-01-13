@@ -3,6 +3,7 @@ package fr.efrei.springsecurity.controllers;
 
 import fr.efrei.springsecurity.models.Cinema;
 import fr.efrei.springsecurity.models.Film;
+import fr.efrei.springsecurity.models.Seance;
 import fr.efrei.springsecurity.models.dto.CinemaDTO;
 import fr.efrei.springsecurity.services.CinemaService;
 import fr.efrei.springsecurity.services.FilmService;
@@ -90,6 +91,13 @@ public class CinemaController {
     ){
         cinemaService.delCinema(id);
         return "Objet supprimé";
+    }
+
+    @GetMapping("{id}/seances")
+    public List<Seance> getSeanceFromACinema(
+            @PathVariable Long id
+    ){
+        return cinemaService.getSeances(id);
     }
 
 }

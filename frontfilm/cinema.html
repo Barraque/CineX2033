@@ -67,6 +67,26 @@
                        return div;
                    }
 
+                   function createSeance (film_titre,cinema_nom,dated,datef) {
+                       let div = document.createElement('div');
+                       div.classList.add("seance");
+                       let afilm_nom = document.createElement('h1');
+                       afilm_nom.innerText = film_titre;
+                       let acinema_nom = document.createElement('h1');
+                       acinema_nom.innerText = cinema_nom;
+                       let adated = document.createElement('p');
+                       adated.innerText = dated;
+                       let adatef = document.createElement('p');
+                       adatef.innerText = datef;
+
+                       div.appendChild(afilm_nom);
+                       div.appendChild(acinema_nom);
+                       div.appendChild(adated);
+                       div.appendChild(adatef);
+                       return div;
+
+                   }
+
                    window.onload =  async function () {
                        let id = getParameter("id");
                        const response = await fetch("http://localhost:8080/cinemas/" + id);
@@ -89,65 +109,24 @@
                             listfilm.appendChild(film_division);
                        })
 
+                           let id2 = getParameter("id");
+                           const response2 = await fetch("http://localhost:8080/cinemas/" + id2 + "/seances");
+                           const seances = await response2.json()
 
+                           let listseance= document.getElementById("list_seance");
+                           console.log(seances)
+                           seances.forEach(seance => {
+                               seance_division = createSeance(createSeance(seance.film.titre, seance.cinema.nom, seance.dateD, seance.finD));
+                               listseance.appendChild(seance_division);
+                           })
 
-                   }
+                       }
+
                </script>
        </div>
         <div class="Afilm" id = "list_film"></div>
 
         <div class="Aseance" id = "list_seance">
-            <script>
-                getParameter = (key) => {
-                    // Address of the current window
-                    address = window.location.search
-                    // Returns a URLSearchParams object instance
-                    parameterList = new URLSearchParams(address)
-                    // Returning the respected value associated
-                    // with the provided key
-                    return parameterList.get(key)
-                }
-
-                function createSeance (film_titre,cinema_nom,dated,datef) {
-                    let div = document.createElement('div');
-                    div.classList.add("seance");
-                    let afilm_nom = document.createElement('h1');
-                    afilm_nom.innerText = film_titre;
-                    let acinema_nom = document.createElement('h1');
-                    acinema_nom.innerText = cinema_nom;
-                    let adated = document.createElement('p');
-                    adated.innerText = dated;
-                    let adatef = document.createElement('p');
-                    adatef.innerText = datef;
-
-                    div.appendChild(afilm_nom);
-                    div.appendChild(acinema_nom);
-                    div.appendChild(adated);
-                    div.appendChild(adatef);
-                    return div;
-
-                }
-
-                window.onload =  async function () {
-                    let id = getParameter("id");
-                    const response = await fetch("http://localhost:8080/cinemas/" + id);
-                    const cinema = await response.json();
-
-                    element_cine = document.getElementById("cinema")
-                    let name = document.createElement("h1");
-                    name.innerText = cinema.nom;
-                    element_cine.appendChild(name);
-
-
-                    let listseance= document.getElementById("list_seance");
-                    console.log(cinema);
-                    cinema.seances.forEach(seance => {
-                        seance_division = createSeance(createSeance(seance.film.titre, seance.cinema.nom, seance.dateD, seance.finD));
-                        listseance.appendChild(seance_division);
-                    })
-
-                }
-            </script>
             <div>
 
 </main>

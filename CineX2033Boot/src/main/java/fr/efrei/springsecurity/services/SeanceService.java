@@ -33,4 +33,5 @@ public class SeanceService {
         seanceRepository.delete(getSeance(id));
     }
 
+
 }
