@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="../css/style.css">
+    <link rel="stylesheet" type="text/css" href="../css/cinema.css">
+    <title>Film Master</title>
+</head>
+
+<body>
+<header>
+    <!-- Click sur image pour retourner à l'accueil -->
+    <a href="films.html"> <img src="../data/logo.png"> </a>
+</header>
+
+<nav id="mainTopNav" class="topnav">
+    <a href="films.html">Films</a>
+    <a href="cinemas.html">Cinemas</a>
+    <a href="Recherche.html">Recherche</a>
+    <a href="../admin/admin.html">Admin</a>
+
+
+</nav>
+
+<main class="main">
+
+    <br>
+    <br>
+
+        <div class="infocine">
+            <b><h1  class="titre"> Cinema Gaumon</h1></b>
+            <b><h2  class="titre"> 18 rue Jean PAUL</h2></b>
+            <b><h2  class="titre"> 75001 Paris</h2></b>
+        </div>
+
+       <div class="Afilm">
+           <script>
+               function createMovie (imgsrc,titre,duree,real) {
+                   let div = document.createElement('div');
+                   div.classList.add("film");
+                   let img = document.createElement('img');
+                   img.src = imgsrc;
+                   let tit = document.createElement('h1');
+                   tit.innerText = titre;
+                   let dur = document.createElement('p');
+                   dur.innerText = duree;
+                   let realisateur = document.createElement('p');
+                   realisateur.innerText = real;
+                   div.appendChild(img);
+                   div.appendChild(tit);
+                   div.appendChild(dur);
+                   div.appendChild(realisateur);
+                   return div;
+
+               }
+               window.onload =  async function () {
+                   const response = await fetch("http://localhost:8080/films");
+                   const films = await response.json();
+                   table = document.getElementById("films");
+                   films.forEach(film => {
+                       table.appendChild(createMovie(film.imgurl, film.titre, film.duree, film.producteur.nom));
+                   })
+                   films.forEach(film => {
+                       table.appendChild(createMovie(film.imgurl, film.titre, film.duree, film.producteur.nom));
+                   })
+               }
+           </script>
+       </div>
+       </div>
+        <div class="Bfilm" id="films">
+            <script>
+                function createMovie (imgsrc,titre,duree,real) {
+                    let div = document.createElement('div');
+                    div.classList.add("film");
+                    let img = document.createElement('img');
+                    img.src = imgsrc;
+                    let tit = document.createElement('h1');
+                    tit.innerText = titre;
+                    let dur = document.createElement('p');
+                    dur.innerText = duree;
+                    let realisateur = document.createElement('p');
+                    realisateur.innerText = real;
+                    div.appendChild(img);
+                    div.appendChild(tit);
+                    div.appendChild(dur);
+                    div.appendChild(realisateur);
+                    return div;
+
+                }
+                window.onload =  async function () {
+                    const response = await fetch("http://localhost:8080/films");
+                    const films = await response.json();
+                    table = document.getElementById("films");
+                    films.forEach(film => {
+                        table.appendChild(createMovie(film.imgurl, film.titre, film.duree, film.producteur.nom));
+                    })
+                    films.forEach(film => {
+                        table.appendChild(createMovie(film.imgurl, film.titre, film.duree, film.producteur.nom));
+                    })
+                }
+            </script>
+        </div>
+        </div>
+
+
+</main>
+
+<footer>
+
+
+</footer>
+</body>
+
+<script src="script.js"></script>
+
+</html>

@@ -20,7 +20,7 @@
 }
 
 .body{
-background: #ebecf0;
+    background: #ebecf0;
     width: 75%;
 }
 
@@ -36,19 +36,22 @@ background: #ebecf0;
     font-family: arial;
 }
 
-#table h1 {
+.titre {
     color: black;
     font-size: 30px;
 }
 
-.table p {
+.texte {
     color: darkgrey;
     font-size: 22px;
 }
 
+.infocine{
+    text-align: center;
+    background: #ebecf0;
+}
 
-
-#table {
+.table {
     margin-left: auto;
     margin-right: auto;
 }
@@ -147,4 +150,21 @@ background: #ebecf0;
         height: 150px;
         width: 100%;
     }
+}
+
+.Afilm{
+    background: red;
+    float:left;
+    max-width: 900px;
+    margin: auto;
+    text-align: center;
+    font-family: arial;
+}
+.Bfilm{
+    float:right;
+    background: blue;
+    max-width: 900px;
+    margin: auto;
+    text-align: center;
+    font-family: arial;
 }
