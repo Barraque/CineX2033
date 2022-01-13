@@ -159,6 +159,7 @@
             getLangues()
             getActeurs()
             tablefilms()
+            tableseances()
 
             $("#butseance").click(function (){
                 console.log("la")
@@ -185,6 +186,7 @@
                     } else {
                         alert("seance ajouté")
                     }
+                    tableseances()
                 });
             })
         };
@@ -233,6 +235,7 @@
                 } else {
                     alert("film ajouté")
                 }
+                tablefilms()
             });
         });
 
@@ -240,8 +243,14 @@
     </script>
 
     <table id="tablefilm" style="border:1px solid black">
-        <tr><b><td>Nom</td><td>Durée du film</td><td>Langue du film</td><td>Producteur</td><td>Acteurs</td><td>Age minimum</td><td>Date debut</td><td>Date fin</td><td>Image affiche url</td><td>Supprimer</td></b></tr>
         <script>
+
+            const removeChilds = (parent) => {
+                while (parent.lastChild) {
+                    parent.removeChild(parent.lastChild);
+                }
+            };
+
             function trfortavlefilm(id, nom, duree, langue, producteur, acteurs, age, dated, datef, imgurl){
                 tr = document.createElement("tr")
                 td = document.createElement("td")
@@ -301,10 +310,13 @@
                     response.then(  function (response) {
                         if (response.status !== 200) {
                             alert("probleme " + response.status)
+                            tablefilms()
                         } else {
                             alert("film supprimé")
                         }
+                        tablefilms();
                     });
+
                 })
                 td.appendChild(but)
                 tr.appendChild(td)
@@ -314,11 +326,60 @@
                 const response = await fetch("http://localhost:8080/films");
                 const films = await response.json();
                 table = document.getElementById("tablefilm");
+                removeChilds(table)
+                table.innerHTML ="<tr><b><td>Nom</td><td>Durée du film</td><td>Langue du film</td><td>Producteur</td><td>Acteurs</td><td>Age minimum</td><td>Date debut</td><td>Date fin</td><td>Image affiche url</td><td>Supprimer</td></b></tr>"
                 films.forEach(film => {
                     tr = trfortavlefilm(film.film_id, film.titre,film.duree,film.langues,film.producteur, film.acteurs, film.minage, film.dateD, film.dateF, film.imgurl)
                     table.appendChild(tr);
                 });
-
+            }
+            function trfortableseance(id,film, cinema, date){
+                tr = document.createElement("tr")
+                td = document.createElement("td")
+                td.innerText = film.titre;
+                tr.appendChild(td);td = document.createElement("td")
+                td.innerText = film.film_id;
+                tr.appendChild(td);td = document.createElement("td")
+                td.innerText = cinema.nom;
+                tr.appendChild(td);td = document.createElement("td")
+                td.innerText = cinema.cinema_id;
+                tr.appendChild(td);td = document.createElement("td")
+                td.innerText = date;
+                tr.appendChild(td);td = document.createElement("td")
+                but = document.createElement("button")
+                but.innerText = "Suppimer"
+                but.setAttribute('type', 'submit')
+                but.addEventListener('click',async function () {
+                    const response = fetch("http://localhost:8080/seances/" + id , {
+                        method: 'DELETE',
+                        headers: {
+                            'Authorization': getAuthCookie()
+                        }
+                    });
+                    response.then(async function (response) {
+                        if (response.status !== 200) {
+                            alert("probleme " + response.status)
+                        } else {
+                            alert("seance supprimée")
+                        }
+                        await tableseances();
+                    });
+                })
+                console.log("a")
+                td.appendChild(but)
+                tr.appendChild(td)
+                return tr
+            }
+            async function tableseances(){
+                const response = await fetch("http://localhost:8080/seances");
+                const seances = await response.json();
+                table = document.getElementById("listseance");
+                removeChilds(table)
+                table.innerHTML = "<tr><b><td>Titre du film</td><td>ID du film</td><td>Nom du cinema</td><td>ID du Cinema</td><td>Date de séance</td><td>Supprimer</td></b></tr>"
+                seances.forEach(seance => {
+                    tr = trfortableseance(seance.id, seance.film, seance.cinema, seance.dateD)
+                    table.appendChild(tr);
+                });
             }
         </script>
     </table>
@@ -338,15 +399,13 @@
             <p>Date de début de diffusion de la séance</p>
             <input id="dateD" type="text" name="Date de début de diffusion" class="form-control" placeholder="format jj/MM/yyyy HH:mm" required="required" autocomplete="off">
         </div>
-
         <br>
         <div class="form-group">
             <button id="butseance" type="submit" class="btn btn-primary btn-block">Ajouter une seance</button>
         </div>
 
-    <table style="border:1px solid black">
-
-        <tr><b><td>ID du film</td><td>ID du Cinema</td><td>Date de début de diffusion de la séance</td><td>Date de fin de diffusion de la séance</td><td>Modifier</td><td>Supprimer</td></b></tr>
+    <table id="listseance" style="border:1px solid black">
+        <tr><b><td>Titre du film</td><td>ID du film</td><td>Nom du cinema</td><td>ID du Cinema</td><td>Date de séance</td><td>Supprimer</td></b></tr>
     </table>
 </div>
 
