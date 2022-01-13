@@ -159,6 +159,34 @@
             getLangues()
             getActeurs()
             tablefilms()
+
+            $("#butseance").click(function (){
+                console.log("la")
+                seance = {
+                    "id":0,
+                    "cinemaId" : document.getElementById("cinema_id").value,
+                    "filmId" : document.getElementById("film_id").value,
+                    "dateD": document.getElementById("dateD").value
+                }
+
+                console.log(seance)
+
+                const response = fetch("http://localhost:8080/seances", {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': getAuthCookie(),
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(seance)
+                });
+                response.then(  function (response) {
+                    if (response.status !== 200) {
+                        alert("probleme " + response.status)
+                    } else {
+                        alert("seance ajouté")
+                    }
+                });
+            })
         };
 
         $("#but").click(async function () {
@@ -207,6 +235,8 @@
                 }
             });
         });
+
+
     </script>
 
     <table id="tablefilm" style="border:1px solid black">
@@ -295,30 +325,25 @@
 </div>
 
 <div class="login-form">
-    <form>
         <h2 class="text-center">Ajouter une séance</h2>
         <div class="form-group">
             <p>ID du film</p>
-            <input type="text" name="ID du film" class="form-control" placeholder="ID du film" required="required" autocomplete="off">
+            <input id="film_id" type="text" name="ID du film" class="form-control" placeholder="ID du film" required="required" autocomplete="off">
         </div>
         <div class="form-group">
             <p>ID du Cinema</p>
-            <input type="text" name="ID du Cinema" class="form-control" placeholder="ID du Cinema" required="required" autocomplete="off">
+            <input id="cinema_id" type="text" name="ID du Cinema" class="form-control" placeholder="ID du Cinema" required="required" autocomplete="off">
         </div>
         <div class="form-group">
             <p>Date de début de diffusion de la séance</p>
-            <input type="text" name="Date de début de diffusion" class="form-control" placeholder="Date de début de diffusion de la séance" required="required" autocomplete="off">
-        </div>
-        <div class="form-group">
-            <p>Date de fin de diffusion de la séance</p>
-            <input type="text" name="Date de fin de diffusion" class="form-control" placeholder="Date de fin de diffusion de la séance" required="required" autocomplete="off">
+            <input id="dateD" type="text" name="Date de début de diffusion" class="form-control" placeholder="format jj/MM/yyyy HH:mm" required="required" autocomplete="off">
         </div>
 
         <br>
         <div class="form-group">
-            <button type="submit" class="btn btn-primary btn-block">Ajouter une seance</button>
+            <button id="butseance" type="submit" class="btn btn-primary btn-block">Ajouter une seance</button>
         </div>
-    </form>
+
     <table style="border:1px solid black">
 
         <tr><b><td>ID du film</td><td>ID du Cinema</td><td>Date de début de diffusion de la séance</td><td>Date de fin de diffusion de la séance</td><td>Modifier</td><td>Supprimer</td></b></tr>

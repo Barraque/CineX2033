@@ -48,7 +48,7 @@ public class TransitionDTO {
         film.setDuree(filmDTO.getDuree());
         film.setLangues(filmDTO.getLangues());
         film.setDateD(filmDTO.getDateD());
-        film.setDateF(filmDTO.getDateD());
+        film.setDateF(filmDTO.getDateF());
         film.setMinage(filmDTO.getMinage());
         film.setImgurl(filmDTO.getImgurl());
         film.setProducteur(personneService.getPersonne(filmDTO.getProducteurId()));
@@ -66,7 +66,6 @@ public class TransitionDTO {
         seance.setCinema(cinemaService.getCinema(seanceDTO.getCinemaId()));
         seance.setFilm(filmService.getFilm(seanceDTO.getFilmId()));
         seance.setDateD(seanceDTO.getDateD());
-        seance.setFinD(seanceDTO.getDateF());
         return seance;
     }
 }
