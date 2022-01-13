@@ -63,6 +63,20 @@ public class CinemaController {
 
     }
 
+    @DeleteMapping("{id}/film/{filmId}")
+    public Cinema removeFilmToCinema(
+                @PathVariable(name= "id") Long id,
+                @PathVariable(name= "filmId") Long filmId
+    ){
+        Cinema cinema = getCinema(id);
+        Film film = filmService.getFilm(filmId);
+        List<Film> listeFilms = cinema.getFilms();
+        if(listeFilms.contains(film)) {
+            cinema.getFilms().remove(film);
+        }
+        return cinemaService.saveCinema(cinema);
+    }
+
     @PutMapping
     public Cinema changeCinema(
             @RequestBody CinemaDTO cinemaDTO

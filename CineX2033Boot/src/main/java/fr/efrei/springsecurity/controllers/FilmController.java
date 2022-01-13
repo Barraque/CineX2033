@@ -1,15 +1,19 @@
 package fr.efrei.springsecurity.controllers;
 
+import fr.efrei.springsecurity.exceptions.BadReqException;
 import fr.efrei.springsecurity.models.Cinema;
 import fr.efrei.springsecurity.models.Film;
+import fr.efrei.springsecurity.models.Langue_film;
 import fr.efrei.springsecurity.models.dto.FilmDTO;
 import fr.efrei.springsecurity.services.CinemaService;
 import fr.efrei.springsecurity.services.FilmService;
 import fr.efrei.springsecurity.services.TransitionDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.NoHandlerFoundException;
 
-import javax.swing.table.TableRowSorter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -27,10 +31,16 @@ public class FilmController {
     CinemaService cinemaService;
 
     @PostMapping("")
-    public Film createFilm(
+
+    public ResponseEntity<FilmDTO> createFilm(
             @RequestBody FilmDTO filmDTO
-    ){
-        return filmService.saveFilm(transitionDTO.fromDto(filmDTO));
+    ){ try {
+         Film film = filmService.saveFilm(transitionDTO.fromDto(filmDTO));
+         return new ResponseEntity<FilmDTO>(filmDTO, HttpStatus.OK);
+    } catch (BadReqException e){
+        return new ResponseEntity<FilmDTO>(filmDTO, HttpStatus.BAD_REQUEST);
+    }
+
     }
 
     @GetMapping("{id}")
@@ -61,7 +71,7 @@ public class FilmController {
     @PutMapping
     public Film changeFilm(
             @RequestBody FilmDTO filmDTO
-    ){
+    ) throws BadReqException {
         return filmService.saveFilm(transitionDTO.fromDto(filmDTO));
     }
 
@@ -71,6 +81,11 @@ public class FilmController {
     ){
         filmService.delFilm(id);
         return "Objet supprimé";
+    }
+
+    @GetMapping("getLangues")
+    public Langue_film[] Langue_film(){
+        return Langue_film.values();
     }
 
 }
