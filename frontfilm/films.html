@@ -14,11 +14,6 @@
     <header>
         <!-- Click sur image pour retourner à l'accueil -->
         <a href="films.html"> <img src="data/logo.png"> </a>
-        <div class="log">
-            <a class="log" href="login.html"> <img src="data/connexion.png"> </a>
-        </div>
-
-
 
     </header>
 
@@ -39,11 +34,11 @@
     <main>
 
         <div class="center" id="searchbar">
-            <form action="">
-                <h1>Rechercher un films dans votre ville</h1>
-                <input class="champ" type="text" placeholder="Rechercher un film"/>
-                <input class="bouton" type="button" value="Rechercher" />
-            </form>
+            <input>
+            <h1>Rechercher un films dans votre ville</h1>
+            <input id="villeinput" class="champ" type="text" placeholder="Rechercher un film par ville"/>
+            <input id="butville" class="bouton" type="button" value="Rechercher" />
+            <input id="clearbut" type="submit" value="clear">
         </div>
         <br>
         <h1 class="center">Liste des films</h1>
@@ -51,6 +46,7 @@
         <div class="films" id="films">
 
           <script>
+
 
               function createMovie (id,imgsrc,titre,duree,real) {
                   let div = document.createElement('div');
@@ -72,13 +68,37 @@
                   div.appendChild(realisateur);
                   return div;
               }
-              window.onload =  async function () {
+
+              async function lesfilms() {
                   const response = await fetch("http://localhost:8080/films");
                   const films = await response.json();
                   table = document.getElementById("films");
+                  table.innerHTML = ""
                   films.forEach(film => {
-                        table.appendChild(createMovie(film.film_id, film.imgurl, film.titre, film.duree, film.producteur.nom));
+                      table.appendChild(createMovie(film.film_id, film.imgurl, film.titre, film.duree, film.producteur.nom));
                   });
+              }
+              window.onload =  async function () {
+
+                  lesfilms()
+                  but = document.getElementById("butville")
+                  but.addEventListener('click', async function () {
+                      ville = document.getElementById("villeinput").value
+                      if (ville !== "") {
+                          const response = await fetch("http://localhost:8080/films?ville=" + ville);
+                          const films = await response.json();
+                          table = document.getElementById("films");
+                          table.innerHTML = ''
+                          films.forEach(film => {
+                              table.appendChild(createMovie(film.film_id, film.imgurl, film.titre, film.duree, film.producteur.nom));
+                          })
+                      }
+                  })
+
+                  but = document.getElementById("clearbut")
+                  but.addEventListener('click', function (){
+                      lesfilms()
+                  })
               }
           </script>
         </div>

@@ -44,6 +44,8 @@
 
                 window.onload =  async function () {
                     let id = getParameter("id");
+                    if(id == null)
+                        id = 1
                     const response = await fetch("http://localhost:8080/films/" + id);
                     const film = await response.json();
                     let table = document.createElement("table");
@@ -81,7 +83,5 @@
 
 </footer>
 </body>
-
-<script src="script.js"></script>
 
 </html>
