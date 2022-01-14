@@ -1,11 +1,13 @@
 package fr.efrei.springsecurity.services;
 
 
+import fr.efrei.springsecurity.exceptions.BadReqException;
 import fr.efrei.springsecurity.models.Cinema;
 import fr.efrei.springsecurity.models.Film;
 import fr.efrei.springsecurity.models.Seance;
 import fr.efrei.springsecurity.models.dto.CinemaDTO;
 import fr.efrei.springsecurity.repositories.CinemaRepository;
+import fr.efrei.springsecurity.repositories.FilmRepository;
 import fr.efrei.springsecurity.repositories.SeanceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,6 +25,8 @@ public class CinemaService {
     @Autowired
     SeanceRepository seanceRepository;
 
+    @Autowired
+    FilmRepository filmRepository;
 
     public Cinema saveCinema(final Cinema cinema){
 
@@ -61,4 +65,5 @@ public class CinemaService {
         }
         return seances;
     }
+
 }

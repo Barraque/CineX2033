@@ -80,170 +80,168 @@
     </div>
 
     <script>
+    </script>
 
-        function getAuthCookie() {
-            var cn = "Authorization=";
-            var idx = document.cookie.indexOf(cn)
+    <table id="tablefilm" style="border:1px solid black">
+        <script>
 
-            if (idx !== -1) {
-                var end = document.cookie.indexOf(";", idx + 1);
-                if (end === -1) end = document.cookie.length;
-                return unescape(document.cookie.substring(idx + cn.length, end));
-            } else {
-                return "";
+            function getAuthCookie() {
+                var cn = "Authorization=";
+                var idx = document.cookie.indexOf(cn)
+
+                if (idx !== -1) {
+                    var end = document.cookie.indexOf(";", idx + 1);
+                    if (end === -1) end = document.cookie.length;
+                    return unescape(document.cookie.substring(idx + cn.length, end));
+                } else {
+                    return "";
+                }
             }
-        }
 
-        function findOption(select, idrecherche){
-            i = -1
-            Array.from(select.options).forEach(option => {
-                i++
-                console.log(option.value,idrecherche)
-                if(option.value === idrecherche) {
-                    console.log("ici", option.index)
-                    return i
-                }
-            })
-        }
+            function findOption(select, idrecherche){
+                i = -1
+                Array.from(select.options).forEach(option => {
+                    i++
+                    if(option.value === idrecherche) {
+                        return i
+                    }
+                })
+            }
 
-        async function getActeurs() {
-            const response = await fetch("http://localhost:8080/personnes");
-            const personnes = await response.json();
-            var acteurs1 = document.getElementById("acteurs1")
-            var acteurs2 = document.getElementById("acteurs2")
-            var acteurs3 = document.getElementById("acteurs3")
-            window.personnes.forEach(personne => {
-                if(personne.estActeur === true){
+            async function getActeurs() {
+                const response = await fetch("http://localhost:8080/personnes");
+                const personnes = await response.json();
+                var acteurs1 = document.getElementById("acteurs1")
+                var acteurs2 = document.getElementById("acteurs2")
+                var acteurs3 = document.getElementById("acteurs3")
+                window.personnes.forEach(personne => {
+                    if(personne.estActeur === true){
+                        var opt = document.createElement("option");
+                        opt.value = personne.personne_id;
+                        opt.innerText = personne.prenom + " " + personne.nom;
+                        acteurs1.appendChild(opt);
+                        opt = document.createElement("option");
+                        opt.value = personne.personne_id;
+                        opt.innerText = personne.prenom + " " + personne.nom;
+                        acteurs2.appendChild(opt);
+                        opt = document.createElement("option");
+                        opt.value = personne.personne_id;
+                        opt.innerText = personne.prenom + " " + personne.nom;
+                        acteurs3.appendChild(opt);
+                    }
+                });
+            }
+
+            async function getProducteur(producteur) {
+                window.personnes.forEach(personne => {
+                    if(personne.estProducteur === true){
+                        var opt = document.createElement("option");
+                        opt.value = personne.personne_id;
+                        opt.innerText = personne.prenom + " " + personne.nom;
+                        producteur.appendChild(opt);
+                    }
+                });
+            }
+
+            async function getLangues() {
+                const response = await fetch("http://localhost:8080/films/getLangues");
+                const langues = await response.json();
+                var select = document.getElementById("langue")
+                langues.forEach(langue => {
                     var opt = document.createElement("option");
-                    opt.value = personne.personne_id;
-                    opt.innerText = personne.prenom + " " + personne.nom;
-                    acteurs1.appendChild(opt);
-                    opt = document.createElement("option");
-                    opt.value = personne.personne_id;
-                    opt.innerText = personne.prenom + " " + personne.nom;
-                    acteurs2.appendChild(opt);
-                    opt = document.createElement("option");
-                    opt.value = personne.personne_id;
-                    opt.innerText = personne.prenom + " " + personne.nom;
-                    acteurs3.appendChild(opt);
-                }
-            });
-        }
+                    opt.value = langue;
+                    opt.innerText = langue;
+                    select.appendChild(opt);
+                });
+            }
+            window.onload = async () => {
+                const response = await fetch("http://localhost:8080/personnes");
+                window.personnes = await response.json();
+                const response2 = await fetch("http://localhost:8080/films");
+                window.films = await response2.json();
+                getProducteur(document.getElementById("producteur"))
+                getLangues()
+                getActeurs()
+                tablefilms()
+                tableseances()
+                filmtocinema()
 
-        async function getProducteur(producteur) {
-            window.personnes.forEach(personne => {
-                if(personne.estProducteur === true){
-                    var opt = document.createElement("option");
-                    opt.value = personne.personne_id;
-                    opt.innerText = personne.prenom + " " + personne.nom;
-                    producteur.appendChild(opt);
-                }
-            });
-        }
 
-        async function getLangues() {
-            const response = await fetch("http://localhost:8080/films/getLangues");
-            const langues = await response.json();
-            var select = document.getElementById("langue")
-            langues.forEach(langue => {
-                var opt = document.createElement("option");
-                opt.value = langue;
-                opt.innerText = langue;
-                select.appendChild(opt);
-            });
-        }
-        window.onload = async () => {
-            const response = await fetch("http://localhost:8080/personnes");
-            window.personnes = await response.json();
-            getProducteur(document.getElementById("producteur"))
-            getLangues()
-            getActeurs()
-            tablefilms()
-            tableseances()
+                $("#butseance").click(function (){
+                    seance = {
+                        "id":0,
+                        "cinemaId" : document.getElementById("cinema_id").value,
+                        "filmId" : document.getElementById("film_id").value,
+                        "dateD": document.getElementById("dateD").value
+                    }
 
-            $("#butseance").click(function (){
-                console.log("la")
-                seance = {
-                    "id":0,
-                    "cinemaId" : document.getElementById("cinema_id").value,
-                    "filmId" : document.getElementById("film_id").value,
-                    "dateD": document.getElementById("dateD").value
+
+                    const response = fetch("http://localhost:8080/seances", {
+                        method: 'POST',
+                        headers: {
+                            'Authorization': getAuthCookie(),
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(seance)
+                    });
+                    response.then(  function (response) {
+                        if (response.status !== 200) {
+                            alert("probleme " + response.status)
+                        } else {
+                            alert("seance ajouté")
+                        }
+                        tableseances()
+                    });
+                })
+            };
+
+            $("#but").click(async function () {
+                acteurs = [];
+                var sel = document.getElementById("acteurs1");
+                if (sel.options[sel.selectedIndex].value != -1) {
+                    acteurs.push(sel.options[sel.selectedIndex].value);
                 }
 
-                console.log(seance)
+                sel = document.getElementById("acteurs2");
+                if (sel.options[sel.selectedIndex].value != -1) {
+                    acteurs.push(sel.options[sel.selectedIndex].value);
+                }
 
-                const response = fetch("http://localhost:8080/seances", {
+                sel = document.getElementById("acteurs3");
+                if (sel.options[sel.selectedIndex].value != -1) {
+                    acteurs.push(sel.options[sel.selectedIndex].value);
+                }
+
+                langue = document.getElementById("langue");
+                producteur = document.getElementById("producteur");
+                film = {
+                    "titre": document.getElementById("nom").value,
+                    "dateD": document.getElementById("dated").value,
+                    "dateF": document.getElementById("datef").value,
+                    "duree": document.getElementById("duree").value,
+                    "imgurl": document.getElementById("imgurl").value,
+                    "langues": langue.options[langue.selectedIndex].value,
+                    "minage": document.getElementById("age").value,
+                    "producteurId": producteur.options[producteur.selectedIndex].value,
+                    "acteurs": acteurs
+                }
+                const response = fetch("http://localhost:8080/films", {
                     method: 'POST',
                     headers: {
                         'Authorization': getAuthCookie(),
                         'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify(seance)
+                    body: JSON.stringify(film)
                 });
                 response.then(  function (response) {
                     if (response.status !== 200) {
                         alert("probleme " + response.status)
                     } else {
-                        alert("seance ajouté")
+                        alert("film ajouté")
                     }
-                    tableseances()
+                    tablefilms()
                 });
-            })
-        };
-
-        $("#but").click(async function () {
-            acteurs = [];
-            var sel = document.getElementById("acteurs1");
-            if (sel.options[sel.selectedIndex].value != -1) {
-                acteurs.push(sel.options[sel.selectedIndex].value);
-            }
-
-            sel = document.getElementById("acteurs2");
-            if (sel.options[sel.selectedIndex].value != -1) {
-                acteurs.push(sel.options[sel.selectedIndex].value);
-            }
-
-            sel = document.getElementById("acteurs3");
-            if (sel.options[sel.selectedIndex].value != -1) {
-                acteurs.push(sel.options[sel.selectedIndex].value);
-            }
-
-            langue = document.getElementById("langue");
-            producteur = document.getElementById("producteur");
-            film = {
-                "titre": document.getElementById("nom").value,
-                "dateD": document.getElementById("dated").value,
-                "dateF": document.getElementById("datef").value,
-                "duree": document.getElementById("duree").value,
-                "imgurl": document.getElementById("imgurl").value,
-                "langues": langue.options[langue.selectedIndex].value,
-                "minage": document.getElementById("age").value,
-                "producteurId": producteur.options[producteur.selectedIndex].value,
-                "acteurs": acteurs
-            }
-            const response = fetch("http://localhost:8080/films", {
-                method: 'POST',
-                headers: {
-                    'Authorization': getAuthCookie(),
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(film)
             });
-            response.then(  function (response) {
-                if (response.status !== 200) {
-                    alert("probleme " + response.status)
-                } else {
-                    alert("film ajouté")
-                }
-                tablefilms()
-            });
-        });
-
-
-    </script>
-
-    <table id="tablefilm" style="border:1px solid black">
-        <script>
 
             const removeChilds = (parent) => {
                 while (parent.lastChild) {
@@ -365,7 +363,6 @@
                         await tableseances();
                     });
                 })
-                console.log("a")
                 td.appendChild(but)
                 tr.appendChild(td)
                 return tr
@@ -380,6 +377,98 @@
                     tr = trfortableseance(seance.id, seance.film, seance.cinema, seance.dateD)
                     table.appendChild(tr);
                 });
+            }
+
+            async function tablefilmcinemas(id) {
+                const response = await fetch("http://localhost:8080/cinemas/" + id + "/films");
+                const films = await response.json();
+                table = document.getElementById("tablefilmtocinema")
+                table.innerHTML = " <tr><b><td>Titre du film</td><td>ID du film</td><td>Supprimer</td>"
+                films.forEach(film => {
+                    tr = document.createElement("tr")
+                    td = document.createElement("td")
+                    td.innerText = film.titre
+                    tr.appendChild(td); td = document.createElement("td")
+                    td.innerText = film.film_id
+                    tr.appendChild(td); td = document.createElement("td")
+                    but = document.createElement("button")
+                    but.innerText = "Supprimer"
+                    but.addEventListener('click', function (){
+                        const response = fetch("http://localhost:8080/cinemas/" + id + "/films/" + film.film_id, {
+                            method: 'DELETE',
+                            headers: {
+                                'Authorization': getAuthCookie()
+                            }
+                        });
+                        response.then(async function (response) {
+                            if (response.status !== 200) {
+                                alert("probleme " + response.status)
+                            } else {
+                                alert("film supprimée")
+                            }
+                            await tablefilmcinemas(id);
+                        });
+                    })
+                    td.appendChild(but)
+                    tr.appendChild(td)
+                    table.appendChild(tr)
+                })
+
+            }
+
+            function getfimlFromWindow(id) {
+                window.films.forEach(film => {
+                    if(film.film_id === id)
+                        return film
+                })
+                return films[0]
+            }
+
+            async function filmtocinema() {
+                const response = await fetch("http://localhost:8080/cinemas");
+                const cinemas = await response.json();
+                select = document.getElementById("cinemaaselect")
+                cinemas.forEach(cinema => {
+                    opt = document.createElement("option")
+                    opt.value = cinema.cinema_id
+                    opt.innerText = cinema.nom
+                    select.appendChild(opt)
+                })
+                selectfilm = document.getElementById("filmaajouter")
+                window.films.forEach(film => {
+                    opt = document.createElement("option")
+                    opt.value = film.film_id
+                    opt.innerText = film.titre
+                    selectfilm.appendChild(opt)
+                })
+
+                select.addEventListener('change',function (){
+                    val = select.options[select.selectedIndex].value
+                    tablefilmcinemas(val)
+                })
+
+                val = select.options[select.selectedIndex].value
+                valfilm = selectfilm.options[selectfilm.selectedIndex].value
+                but = document.getElementById("ajoutfilm")
+                but.addEventListener('click',function (){
+                    const response = fetch("http://localhost:8080/cinemas/" + select.options[select.selectedIndex].value + "/films/" + selectfilm.options[selectfilm.selectedIndex].value, {
+                        method: 'POST',
+                        headers: {
+                            'Authorization': getAuthCookie()
+                        },
+                    });
+                    response.then(async function (response) {
+                        if (response.status !== 200) {
+                            alert("probleme " + response.status)
+                        } else {
+                            alert("film ajouté")
+                        }
+                        tablefilmcinemas(val)
+                    });
+                })
+
+                val = select.options[select.selectedIndex].value
+                tablefilmcinemas(val)
             }
         </script>
     </table>
@@ -407,6 +496,15 @@
     <table id="listseance" style="border:1px solid black">
         <tr><b><td>Titre du film</td><td>ID du film</td><td>Nom du cinema</td><td>ID du Cinema</td><td>Date de séance</td><td>Supprimer</td></b></tr>
     </table>
+
+    <div id="filmtocinema" >
+        <h1>Ajouter/Supprimer un film d'un cinema</h1>
+        <select id="cinemaaselect"></select>
+        <table id="tablefilmtocinema" style="border:1px solid black">
+        </table>
+        <select id="filmaajouter"></select>
+        <button id="ajoutfilm" type="submit">Ajouter un film au cinema</button>
+    </div>
 </div>
 
 <style>
