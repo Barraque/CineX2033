@@ -152,19 +152,3 @@
     }
 }
 
-.Afilm{
-    background: red;
-    float:left;
-    max-width: 900px;
-    margin: auto;
-    text-align: center;
-    font-family: arial;
-}
-.Bfilm{
-    float:right;
-    background: blue;
-    max-width: 900px;
-    margin: auto;
-    text-align: center;
-    font-family: arial;
-}
