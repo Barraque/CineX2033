@@ -25,8 +25,7 @@
     <nav id="mainTopNav" class="topnav">
         <a class="active" href="films.html">Films</a>
       <a href="cinemas.html">Cinemas</a>
-        <a href="Recherche.html">Seances</a>
-      <a href="Recherche.html">Recherche</a>
+        <a href="seances.html">Seances</a>
         <a href="admin/admin.html">Admin</a>
 
         </div>
@@ -38,7 +37,19 @@
 
 
     <main>
+
+        <div class="center" id="searchbar">
+            <form action="">
+                <h1>Rechercher un films dans votre ville</h1>
+                <input class="champ" type="text" placeholder="Rechercher un film"/>
+                <input class="bouton" type="button" value="Rechercher" />
+            </form>
+        </div>
+        <br>
+        <h1 class="center">Liste des films</h1>
+        <br>
         <div class="films" id="films">
+
           <script>
 
               function createMovie (id,imgsrc,titre,duree,real) {
