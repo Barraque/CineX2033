@@ -21,7 +21,7 @@
 
     <a href="films.html">Films</a>
     <a class="active"href="cinemas.html">Cinemas</a>
-    <a href="seances.html">Cinemas</a>
+    <a href="seances.html">Seances</a>
     <a href="admin/admin.html">Admin</a>
 
     <a href="javascript:void(0);" class="icon" onclick="topnavManager()">
@@ -35,9 +35,11 @@
     <br>
     <div class="cinemas" id="cinemas">
     <script>
-        function createCinema (nom,adresse,ville) {
+        function createCinema (id, nom,adresse,ville) {
+            let a = document.createElement('a');
+            a.href = "cinema.html?id=" + id;
             let div = document.createElement('div');
-            div.classList.add("cinema");
+            div.classList.add("center");
             let tit = document.createElement('h1');
             tit.innerText = nom;
             let add = document.createElement('p');
@@ -47,7 +49,8 @@
             div.appendChild(tit);
             div.appendChild(add);
             div.appendChild(v);
-            return div;
+            a.appendChild(div)
+            return a;
 
         }
         window.onload =  async function () {
@@ -55,7 +58,7 @@
             const cinemas = await response.json();
             table = document.getElementById("cinemas");
             cinemas.forEach(cinema => {
-                table.appendChild(createCinema(cinema.nom,cinema.adresse.rue, cinema.adresse.codepostal + " " + cinema.adresse.ville,));
+                table.appendChild(createCinema(cinema.cinema_id,cinema.nom,cinema.adresse.rue, cinema.adresse.codepostal + " " + cinema.adresse.ville,));
             })
         }
     </script>
