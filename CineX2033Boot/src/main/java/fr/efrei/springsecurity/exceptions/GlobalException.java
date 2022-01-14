@@ -31,4 +31,14 @@ public class GlobalException  extends  Exception{
                 HttpStatus.BAD_REQUEST
         );
     }
+
+    @ExceptionHandler(value = IllegalArgumentException.class)
+    public ResponseEntity<String> handleIllegalArgumentException(
+            final IllegalArgumentException msg) {
+        return new ResponseEntity<>(
+                msg.getMessage(),
+                HttpStatus.BAD_REQUEST
+        );
+    }
+
 }

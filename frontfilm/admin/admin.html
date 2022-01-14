@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="UTF-8">
     <meta charset="utf-8">
@@ -26,6 +26,7 @@
 <div class="login-form">
 
 </div>
+<br>
 <div class="login-form">
 
     <h2 class="text-center">Ajouter un film</h2>
@@ -56,7 +57,7 @@
     <select id="acteurs3">
         <option value="-1">null</option>
     </select>
-
+    <br>
     <div class="form-group">
         <p>Age minimun pour regarder le film</p>
         <input id="age" type="text" name="Age minimun pour regarder le film" class="form-control" placeholder="Age minimun pour regarder le film" required="required" autocomplete="off">
@@ -78,9 +79,7 @@
     <div class="form-group">
         <button id="but" type="submit" class="btn btn-primary btn-block">Ajouter un film</button>
     </div>
-
-    <script>
-    </script>
+    <br>
 
     <table id="tablefilm" style="border:1px solid black">
         <script>
@@ -165,7 +164,61 @@
                 tablefilms()
                 tableseances()
                 filmtocinema()
+                tablecinema()
 
+                $("#butajoutcinema").click(function (){
+                    rue = document.getElementById("ruecinema").value
+                    ville = document.getElementById("villecinema").value
+                    cpp = document.getElementById("cpcinema").value
+                    ladresse = {
+                        rue : rue,
+                        ville : ville,
+                        codepostal :cpp,
+                        pays : "France",
+                        adresse_id : 0
+                    }
+
+                    const rep = fetch("http://localhost:8080/adresses", {
+                        method: 'POST',
+                        headers: {
+                            'Authorization': getAuthCookie(),
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(ladresse)
+                    });
+                    rep.then(  async function (repadresse) {
+                        if (repadresse.status !== 200) {
+                            alert("probleme " + repadresse.status)
+                        } else {
+                            ladresse = await repadresse.json()
+                            cinema = {
+                                nom: document.getElementById("nomcinema").value,
+                                adresseId: ladresse.adresse_id,
+                                id: 0,
+                                listefilm: []
+                            }
+                            console.log(cinema)
+                            const repci = fetch("http://localhost:8080/cinemas", {
+                                method: 'POST',
+                                headers: {
+                                    'Authorization': getAuthCookie(),
+                                    'Content-Type': 'application/json'
+                                },
+                                body: JSON.stringify(cinema)
+                            });
+                            repci.then(function (repapres) {
+                                if (repapres.status !== 200) {
+                                    alert("probleme " + repapres.status)
+                                } else {
+                                    alert("cinema ajouté")
+                                }
+                                tablecinema()
+                            });
+                        }
+                    });
+                    response2.body
+
+                })
 
                 $("#butseance").click(function (){
                     seance = {
@@ -174,7 +227,6 @@
                         "filmId" : document.getElementById("film_id").value,
                         "dateD": document.getElementById("dateD").value
                     }
-
 
                     const response = fetch("http://localhost:8080/seances", {
                         method: 'POST',
@@ -470,10 +522,68 @@
                 val = select.options[select.selectedIndex].value
                 tablefilmcinemas(val)
             }
+
+            async function tablecinema() {
+                const response = await fetch("http://localhost:8080/cinemas");
+                const cinemas = await response.json();
+
+                table = document.getElementById("listecinemas")
+                table.innerHTML = "<tr><b><td>Nom du cinema</td><td>ID du cinema</td><td>Adresse</td><td>Supprimer</td></b></tr>"
+                cinemas.forEach(cinema => {
+                    tr = document.createElement("tr")
+                    td = document.createElement("td")
+
+                    td.innerText = cinema.nom
+                    tr.appendChild(td);td = document.createElement("td");
+                    td.innerText = cinema.cinema_id
+                    tr.appendChild(td);td = document.createElement("td");
+                    td.innerText = cinema.adresse.rue + " " + cinema.adresse.ville + " " + cinema.adresse.codepostal
+                    tr.appendChild(td);td = document.createElement("td");
+                    but = document.createElement("button")
+                    but.innerText = "Supprimer"
+                    but.addEventListener('click', function (){
+                        const response = fetch("http://localhost:8080/cinemas/" + cinema.cinema_id, {
+                            method: 'DELETE',
+                            headers: {
+                                'Authorization': getAuthCookie()
+                            }
+                        });
+                        response.then(async function (response) {
+                            if (response.status !== 200) {
+                                alert("probleme " + response.status)
+                            } else {
+                                alert("cienma supprimée")
+                            }
+                            await tablecinema();
+                        });
+                    })
+                    td.appendChild(but)
+                    tr.appendChild(td)
+                    table.appendChild(tr)
+                })
+            }
         </script>
     </table>
 </div>
 
+<div class="login-form">
+    <h1>Ajouter un cinema</h1>
+    <p>Nom du cinema</p>
+    <input type="text" id="nomcinema">
+    <p>Rue du cinema</p>
+    <input type="text" id="ruecinema">
+    <p>Ville du cinema</p>
+    <input type="text" id="villecinema">
+    <p>Code Postale du cinema</p>
+    <input type="text" id="cpcinema">
+    <button id="butajoutcinema">Ajouter</button>
+</div>
+
+<div class="login-form">
+    <h1>Listes des cinemas</h1>
+    <table id="listecinemas" style="border:1px solid black"></table>
+</div>
+<br>
 <div class="login-form">
         <h2 class="text-center">Ajouter une séance</h2>
         <div class="form-group">
@@ -492,13 +602,16 @@
         <div class="form-group">
             <button id="butseance" type="submit" class="btn btn-primary btn-block">Ajouter une seance</button>
         </div>
-
+    <br>
+    <br>
+    <h1>Listes des seances</h1>
     <table id="listseance" style="border:1px solid black">
         <tr><b><td>Titre du film</td><td>ID du film</td><td>Nom du cinema</td><td>ID du Cinema</td><td>Date de séance</td><td>Supprimer</td></b></tr>
     </table>
-
+    <br>
     <div id="filmtocinema" >
         <h1>Ajouter/Supprimer un film d'un cinema</h1>
+        <br>
         <select id="cinemaaselect"></select>
         <table id="tablefilmtocinema" style="border:1px solid black">
         </table>
