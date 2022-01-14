@@ -24,9 +24,6 @@ public class CinemaService {
     @Autowired
     SeanceRepository seanceRepository;
 
-    @Autowired
-    FilmRepository filmRepository;
-
     public Cinema saveCinema(final Cinema cinema){
 
         return cinemaRepository.save(cinema);
