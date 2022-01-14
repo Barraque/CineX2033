@@ -116,7 +116,7 @@
                            let listseance= document.getElementById("list_seance");
                            console.log(seances)
                            seances.forEach(seance => {
-                               seance_division = createSeance(createSeance(seance.film.titre, seance.cinema.nom, seance.dateD, seance.finD));
+                               seance_division = createSeance(seance.film.titre, seance.cinema.nom, seance.dateD, seance.finD);
                                listseance.appendChild(seance_division);
                            })
 
