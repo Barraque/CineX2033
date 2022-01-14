@@ -1,7 +1,6 @@
 package fr.efrei.springsecurity.controllers;
 
 
-import fr.efrei.springsecurity.exceptions.BadReqException;
 import fr.efrei.springsecurity.models.Cinema;
 import fr.efrei.springsecurity.models.Film;
 import fr.efrei.springsecurity.models.Seance;
@@ -11,8 +10,7 @@ import fr.efrei.springsecurity.services.CinemaService;
 import fr.efrei.springsecurity.services.FilmService;
 import fr.efrei.springsecurity.services.TransitionDTO;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

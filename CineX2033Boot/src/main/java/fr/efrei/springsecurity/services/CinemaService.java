@@ -1,7 +1,6 @@
 package fr.efrei.springsecurity.services;
 
 
-import fr.efrei.springsecurity.exceptions.BadReqException;
 import fr.efrei.springsecurity.models.Cinema;
 import fr.efrei.springsecurity.models.Film;
 import fr.efrei.springsecurity.models.Seance;
