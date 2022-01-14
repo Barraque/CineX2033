@@ -53,5 +53,6 @@ public class SeanceController {
         seanceService.delSeance(id);
         return "Objet supprimé";
     }
+
     
 }

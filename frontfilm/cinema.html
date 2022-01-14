@@ -19,7 +19,7 @@
 <nav id="mainTopNav" class="topnav">
     <a href="films.html">Films</a>
     <a href="cinemas.html">Cinemas</a>
-    <a href="Recherche.html">Recherche</a>
+    <a href="seances.html">Seances</a>
     <a href="admin/admin.html">Admin</a>
 
 
@@ -27,93 +27,123 @@
 
 <main class="main">
 
+    <a href="javascript:void(0);" class="icon" onclick="topnavManager()">
+        <i class="fa fa-bars"></i>
+    </a>
     <br>
     <br>
 
-        <div class="infocine">
-            <b><h1  class="titre"> Cinema Gaumon</h1></b>
-            <b><h2  class="titre"> 18 rue Jean PAUL</h2></b>
-            <b><h2  class="titre"> 75001 Paris</h2></b>
+        <div class="center" id="cinema">
+
         </div>
 
-       <div class="Afilm">
-           <script>
-               function createMovie (imgsrc,titre,duree,real) {
-                   let div = document.createElement('div');
-                   div.classList.add("film");
-                   let img = document.createElement('img');
-                   img.src = imgsrc;
-                   let tit = document.createElement('h1');
-                   tit.innerText = titre;
-                   let dur = document.createElement('p');
-                   dur.innerText = duree;
-                   let realisateur = document.createElement('p');
-                   realisateur.innerText = real;
-                   div.appendChild(img);
-                   div.appendChild(tit);
-                   div.appendChild(dur);
-                   div.appendChild(realisateur);
-                   return div;
+       <div class="Afilm" id="cinema_id">
+               <script>
+                   getParameter = (key) => {
+                       // Address of the current window
+                       address = window.location.search
+                       // Returns a URLSearchParams object instance
+                       parameterList = new URLSearchParams(address)
+                       // Returning the respected value associated
+                       // with the provided key
+                       return parameterList.get(key)
+                   }
 
-               }
-               window.onload =  async function () {
-                   const response = await fetch("http://localhost:8080/films");
-                   const films = await response.json();
-                   table = document.getElementById("films");
-                   films.forEach(film => {
-                       table.appendChild(createMovie(film.imgurl, film.titre, film.duree, film.producteur.nom));
-                   })
-                   films.forEach(film => {
-                       table.appendChild(createMovie(film.imgurl, film.titre, film.duree, film.producteur.nom));
-                   })
-               }
-           </script>
+                   function createMovie (id,imgsrc,titre,duree,real) {
+                       let div = document.createElement('div');
+                       div.classList.add("film");
+                       let a = document.createElement('a');
+                       a.href = "film.html?id=" + id;
+                       let img = document.createElement('img');
+                       img.src = imgsrc;
+                       a.appendChild(img);
+                       let tit = document.createElement('h1');
+                       tit.innerText = titre;
+                       let dur = document.createElement('p');
+                       dur.innerText = duree;
+                       let realisateur = document.createElement('p');
+                       realisateur.innerText = real;
+                       div.appendChild(a);
+                       div.appendChild(tit);
+                       div.appendChild(dur);
+                       div.appendChild(realisateur);
+                       return div;
+                   }
+
+                   function createSeance (film_titre,cinema_nom,dated,datef) {
+                       let div = document.createElement('div');
+                       div.classList.add("seance");
+                       let afilm_nom = document.createElement('h1');
+                       afilm_nom.innerText = film_titre;
+                       let acinema_nom = document.createElement('h1');
+                       acinema_nom.innerText = cinema_nom;
+                       let adated = document.createElement('p');
+                       adated.innerText = dated;
+                       let adatef = document.createElement('p');
+                       adatef.innerText = datef;
+
+                       div.appendChild(afilm_nom);
+                       div.appendChild(acinema_nom);
+                       div.appendChild(adated);
+                       div.appendChild(adatef);
+                       return div;
+
+                   }
+
+                   window.onload =  async function () {
+                       let id = getParameter("id");
+                       const response = await fetch("http://localhost:8080/cinemas/" + id);
+                       const cinema = await response.json();
+
+                       element_cine = document.getElementById("cinema")
+                       let name = document.createElement("h1");
+                       name.innerText = cinema.nom;
+                       element_cine.appendChild(name);
+
+                       let adresse = document.createElement("h2");
+                       adresse.innerText = "Adresse : " + cinema.adresse.rue + ", " + cinema.adresse.codepostal + " " + cinema.adresse.ville + ", " + cinema.adresse.pays;
+                       element_cine.appendChild(adresse);
+
+
+
+                       let listfilm = document.getElementById("list_film");
+                       cinema.films.forEach(film => {
+                            film_division = createMovie(film.film_id, film.imgurl, film.titre, film.duree, film.producteur.nom  + " " + film.producteur.prenom);
+                            listfilm.appendChild(film_division);
+                       })
+
+                           let id2 = getParameter("id");
+                           const response2 = await fetch("http://localhost:8080/cinemas/" + id2 + "/seances");
+                           const seances = await response2.json()
+
+                           let listseance= document.getElementById("list_seance");
+                           console.log(seances)
+                           seances.forEach(seance => {
+                               seance_division = createSeance(seance.film.titre, seance.cinema.nom, seance.dateD, seance.finD);
+                               listseance.appendChild(seance_division);
+                           })
+
+                       }
+
+               </script>
        </div>
-       </div>
-        <div class="Bfilm" id="films">
-            <script>
-                function createMovie (imgsrc,titre,duree,real) {
-                    let div = document.createElement('div');
-                    div.classList.add("film");
-                    let img = document.createElement('img');
-                    img.src = imgsrc;
-                    let tit = document.createElement('h1');
-                    tit.innerText = titre;
-                    let dur = document.createElement('p');
-                    dur.innerText = duree;
-                    let realisateur = document.createElement('p');
-                    realisateur.innerText = real;
-                    div.appendChild(img);
-                    div.appendChild(tit);
-                    div.appendChild(dur);
-                    div.appendChild(realisateur);
-                    return div;
-
-                }
-                window.onload =  async function () {
-                    const response = await fetch("http://localhost:8080/films");
-                    const films = await response.json();
-                    table = document.getElementById("films");
-                    films.forEach(film => {
-                        table.appendChild(createMovie(film.imgurl, film.titre, film.duree, film.producteur.nom));
-                    })
-                    films.forEach(film => {
-                        table.appendChild(createMovie(film.imgurl, film.titre, film.duree, film.producteur.nom));
-                    })
-                }
-            </script>
-        </div>
-        </div>
+    <br>
+        <h1 class="center">Liste des films dans votre cinéma</h1>
+    <br>
+        <div class="Grid"  id = "list_film"></div>
+    <br>
+    <h1 class="center">Prochaines séances</h1>
+    <br>
+        <div class="Grid-cell" id = "list_seance">
+            <div>
 
 
-</main>
+    </main>
 
 <footer>
 
 
 </footer>
 </body>
-
-<script src="script.js"></script>
 
 </html>

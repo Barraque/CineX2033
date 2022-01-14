@@ -6,11 +6,6 @@
 }
 
 .center {
-    position : absolute;
-    top      : 50%;
-    left     : 50%;
-    transform: translate(-50%, -50%);
-
     font-size : 1.5em;
     text-align: center;
 
@@ -152,19 +147,3 @@
     }
 }
 
-.Afilm{
-    background: red;
-    float:left;
-    max-width: 900px;
-    margin: auto;
-    text-align: center;
-    font-family: arial;
-}
-.Bfilm{
-    float:right;
-    background: blue;
-    max-width: 900px;
-    margin: auto;
-    text-align: center;
-    font-family: arial;
-}

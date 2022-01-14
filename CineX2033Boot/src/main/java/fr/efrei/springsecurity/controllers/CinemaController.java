@@ -101,4 +101,11 @@ public class CinemaController {
         return cinemaService.getSeances(id);
     }
 
+    @GetMapping("{id}/seances")
+    public List<Seance> getSeanceFromACinema(
+            @PathVariable Long id
+    ){
+        return cinemaService.getSeances(id);
+    }
+
 }
