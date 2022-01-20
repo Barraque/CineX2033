@@ -47,7 +47,7 @@ public class FilmService {
             }
         }
         film.setActeurs(acteurs);
-        if(!film.getProducteur().isEstProducteur()){
+        if(!film.getProducteur().isEstProducteur() || acteurs.size() == 0 ){
             throw new BadReqException();
         }
         return film;
