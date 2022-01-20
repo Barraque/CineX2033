@@ -34,8 +34,12 @@ public class BasicAuthSecurityConfig extends WebSecurityConfigurerAdapter {
         http.cors().and()
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers(HttpMethod.GET).permitAll()
-                .anyRequest().hasAnyRole(Role.USER, Role.ADMIN).and().httpBasic()
+                    .antMatchers(HttpMethod.GET).permitAll()
+                .and().authorizeRequests()
+                    .antMatchers(HttpMethod.POST).authenticated()
+                .antMatchers(HttpMethod.PUT).authenticated()
+                .antMatchers(HttpMethod.DELETE).authenticated()
+                .and().httpBasic()
                 .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
     }
 

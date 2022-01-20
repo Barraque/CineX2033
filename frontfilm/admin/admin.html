@@ -96,6 +96,22 @@
                 }
             }
 
+            function checkLogin(){
+                const response = fetch("http://localhost:8080/auth",{ method: 'GET',
+                    headers: {
+                        'Authorization' : getAuthCookie(),
+                        'Access-Control-Allow-Origin': '*'
+                    }});
+                response.then(  function (response) {
+                    if(response.status !== 200){
+                        alert("mauvais mot de passe");
+                    }
+                    else {
+                        alert("vous etes connecte")
+                    }
+                });
+            }
+
             function findOption(select, idrecherche){
                 i = -1
                 Array.from(select.options).forEach(option => {
