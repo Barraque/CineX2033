@@ -178,6 +178,35 @@
                 tableseances()
                 filmtocinema()
                 tablecinema()
+                tablepers()
+
+                $("#perssub").click(function (){
+                    pers = {
+                        personne_id:0,
+                        prenom:document.getElementById("persprenom").value,
+                        nom:document.getElementById("persnom").value,
+                        daten:document.getElementById("persdate").value,
+                        estActeur:document.getElementById("persacteur").checked,
+                        estProducteur:document.getElementById("persreal").checked,
+                    }
+
+                    const response = fetch("http://localhost:8080/personnes", {
+                        method: 'POST',
+                        headers: {
+                            'Authorization': getAuthCookie(),
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(pers)
+                    });
+                    response.then(  function (response) {
+                        if (response.status !== 200) {
+                            alert("probleme " + response.status)
+                        } else {
+                            alert("personne ajouté")
+                        }
+                        tablepers()
+                    });
+                })
 
                 $("#butajoutcinema").click(function (){
                     rue = document.getElementById("ruecinema").value
@@ -575,6 +604,59 @@
                     table.appendChild(tr)
                 })
             }
+
+            async function tablepers() {
+                const response = await fetch("http://localhost:8080/personnes");
+                const personnes = await response.json();
+
+                table = document.getElementById("listpers")
+                //table.innerHTML = "<tr><b><td>Nom du cinema</td><td>ID du cinema</td><td>Adresse</td><td>Supprimer</td></b></tr>"
+                personnes.forEach(personne => {
+                    tr = document.createElement("tr")
+                    td = document.createElement("td")
+
+                    td.innerText = personne.nom
+                    tr.appendChild(td);
+                    td = document.createElement("td");
+                    td.innerText = personne.prenom
+                    tr.appendChild(td);
+                    td = document.createElement("td");
+                    td.innerText = personne.daten
+                    tr.appendChild(td);
+                    td = document.createElement("td");
+                    check = document.createElement("input")
+                    check.type = "checkbox"
+                    check.checked = personne.estProducteur == true
+                    td.appendChild(check);tr.appendChild(td);
+                    td = document.createElement("td");
+                    check = document.createElement("input")
+                    check.type = "checkbox"
+                    check.checked = personne.estActeur == true
+                    td.appendChild(check);tr.appendChild(td);
+                    td = document.createElement("td");
+                    but = document.createElement("button")
+                    but.innerText = "Supprimer"
+                    but.addEventListener('click', function () {
+                        const response = fetch("http://localhost:8080/cinemas/" + personne.cinema_id, {
+                            method: 'DELETE',
+                            headers: {
+                                'Authorization': getAuthCookie()
+                            }
+                        });
+                        response.then(async function (response) {
+                            if (response.status !== 200) {
+                                alert("probleme " + response.status)
+                            } else {
+                                alert("cienma supprimée")
+                            }
+                            await tablecinema();
+                        });
+                    })
+                    td.appendChild(but)
+                    tr.appendChild(td)
+                    table.appendChild(tr)
+                })
+            }
         </script>
     </table>
 </div>
@@ -631,6 +713,25 @@
         <select id="filmaajouter"></select>
         <button id="ajoutfilm" type="submit">Ajouter un film au cinema</button>
     </div>
+
+    <h1>Listes des personnes</h1>
+    <table id="listpers" style="border:1px solid black">
+        <tr><b><td>Nom</td><td>Prenom</td><td>Date de naissance</td><td>Réalisateur</td><td>Acteur</td><td>Supprimer</td></b></tr>
+    </table>
+    <br>
+    <h2>Ajouter une personne</h2>
+    <p>Nom de la personne</p>
+    <input id="persnom" type="text"/>
+    <p>Prenom de la personne</p>
+    <input id="persprenom" type="text"/>
+    <p>Date de naissance</p>
+    <input id="persdate" type="text"/>
+    <p>Est réalisateur</p>
+    <input id="persreal" type="checkbox"/>
+    <p>Est acteur</p>
+    <input id="persacteur" type="checkbox"/>
+    <br><br>
+    <button type="submit" id="perssub">Ajouter</button>
 </div>
 
 <style>
