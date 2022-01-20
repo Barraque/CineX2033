@@ -14,7 +14,7 @@
 <header>
 
     <nav id="mainTopNav" class="topnav">
-        <a href="../films.html">Films</a>
+        <a href="../index.html">Films</a>
         <a href="../cinemas.html">Cinemas</a>
         <a href="../seances.html">Seances</a>
         <a href="../recherche.html">Recherche</a>
@@ -97,17 +97,14 @@
             }
 
             function checkLogin(){
-                const response = fetch("http://localhost:8080/auth",{ method: 'GET',
+                const response = fetch("http://localhost:8080/auth",{ method: 'POST',
                     headers: {
                         'Authorization' : getAuthCookie(),
                         'Access-Control-Allow-Origin': '*'
                     }});
                 response.then(  function (response) {
                     if(response.status !== 200){
-                        alert("mauvais mot de passe");
-                    }
-                    else {
-                        alert("vous etes connecte")
+                        window.location.href = history.go(-1);
                     }
                 });
             }
@@ -169,6 +166,7 @@
                 });
             }
             window.onload = async () => {
+                checkLogin();
                 const response = await fetch("http://localhost:8080/personnes");
                 window.personnes = await response.json();
                 const response2 = await fetch("http://localhost:8080/films");

@@ -12,7 +12,7 @@
 </head>
 
 <header>
-    <a href="films.html"> <img src="data/logo.png"> </a>
+    <a href="index.html"> <img src="data/logo.png"> </a>
 </header>
 <body>
 <div class="main">
@@ -28,7 +28,7 @@
             </div>
 
             <div class="form-group">
-                <button type="submit" class="btn btn-primary btn-block">Connexion</button>
+                <button id="but" type="submit" class="btn btn-primary btn-block">Connexion</button>
             </div>
         <script>
             function getAuthCookie() {
@@ -47,7 +47,7 @@
             $("#but").click( function () {
                 var header = "Basic " + btoa(document.getElementById("username").value + ":" + document.getElementById("password").value);
                 document.cookie = "Authorization=" + header + "; secure";
-                const response = fetch("http://localhost:8080/auth",{ method: 'GET',
+                const response = fetch("http://localhost:8080/auth",{ method: 'POST',
                     headers: {
                         'Authorization' : getAuthCookie(),
                         'Access-Control-Allow-Origin': '*'
@@ -58,6 +58,7 @@
                     }
                   else {
                     alert("vous etes connecte")
+                        history.go(-1)
                 }
             });
 

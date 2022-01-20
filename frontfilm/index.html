@@ -13,12 +13,12 @@
 <body>
     <header>
         <!-- Click sur image pour retourner à l'accueil -->
-        <a href="films.html"> <img src="data/logo.png"> </a>
+        <a href="index.html"> <img src="data/logo.png"> </a>
 
     </header>
 
     <nav id="mainTopNav" class="topnav">
-        <a class="active" href="films.html">Films</a>
+        <a class="active" href="index.html">Films</a>
       <a href="cinemas.html">Cinemas</a>
         <a href="seances.html">Seances</a>
         <a href="admin/admin.html">Admin</a>
@@ -74,7 +74,7 @@
                   const films = await response.json();
                   table = document.getElementById("films");
                   table.innerHTML = ""
-                  films.forEach(film => {
+                  index.forEach(film => {
                       table.appendChild(createMovie(film.film_id, film.imgurl, film.titre, film.duree, film.producteur.nom));
                   });
               }
@@ -89,7 +89,7 @@
                           const films = await response.json();
                           table = document.getElementById("films");
                           table.innerHTML = ''
-                          films.forEach(film => {
+                          index.forEach(film => {
                               table.appendChild(createMovie(film.film_id, film.imgurl, film.titre, film.duree, film.producteur.nom));
                           })
                       }
