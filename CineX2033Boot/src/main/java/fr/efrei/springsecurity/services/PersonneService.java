@@ -1,6 +1,7 @@
 package fr.efrei.springsecurity.services;
 
 
+import fr.efrei.springsecurity.exceptions.BadReqException;
 import fr.efrei.springsecurity.models.Personne;
 import fr.efrei.springsecurity.repositories.PersonneRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,8 +17,13 @@ public class PersonneService {
     @Autowired
     PersonneRepository personneRepository;
 
-    public Personne savePersonne(final Personne personne){
-
+    public Personne savePersonne(final Personne personne) throws BadReqException {
+        List<Personne> persones = getallPersonne();
+        for(Personne pers:persones){
+            if(pers.getPrenom().equals(personne.getPrenom()) && pers.getNom().equals(personne.getNom())){
+                throw new BadReqException();
+            }
+        }
         return personneRepository.save(personne);
     }
 
@@ -32,5 +38,9 @@ public class PersonneService {
 
     public void delPersonne(Long id){
         personneRepository.delete(getPersonne(id));
+    }
+
+    public Personne savePersonneSansVerif(Personne personne) {
+        return personneRepository.save(personne);
     }
 }

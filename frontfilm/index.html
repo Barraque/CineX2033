@@ -53,8 +53,10 @@
                   div.classList.add("film");
                   let a = document.createElement('a');
                   a.href = "film.html?id=" + id;
+                  a.classList.add("aimg")
                   let img = document.createElement('img');
                   img.src = imgsrc;
+                  img.classList.add("imgc")
                   a.appendChild(img);
                   let tit = document.createElement('h1');
                   tit.innerText = titre;
@@ -74,7 +76,7 @@
                   const films = await response.json();
                   table = document.getElementById("films");
                   table.innerHTML = ""
-                  index.forEach(film => {
+                  films.forEach(film => {
                       table.appendChild(createMovie(film.film_id, film.imgurl, film.titre, film.duree, film.producteur.nom));
                   });
               }
