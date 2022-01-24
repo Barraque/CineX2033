@@ -1,5 +1,6 @@
 package fr.efrei.springsecurity.controllers;
 
+import fr.efrei.springsecurity.exceptions.BadReqException;
 import fr.efrei.springsecurity.models.Personne;
 import fr.efrei.springsecurity.services.PersonneService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("personnes")
+@CrossOrigin(origins = "*", maxAge = 3600)
 public class PersonneController {
 
     @Autowired
@@ -18,7 +20,7 @@ public class PersonneController {
     @PostMapping("")
     public Personne createPersonne(
             @RequestBody Personne personne
-    ){
+    ) throws BadReqException {
         return personneService.savePersonne(personne);
     }
 
@@ -38,7 +40,15 @@ public class PersonneController {
     public Personne changePersonne(
         @RequestBody Personne personne
     ){
-        return personneService.savePersonne(personne);
+        return personneService.savePersonneSansVerif(personne);
+    }
+
+    @DeleteMapping("{id}")
+    public String delPersonne(
+            @PathVariable("id") Long id
+    ){
+        personneService.delPersonne(id);
+        return "Objet supprimé";
     }
 
 

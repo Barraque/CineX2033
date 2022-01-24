@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link rel="stylesheet" type="text/css" href="css/cinemas.css">
+    <title>Film Master</title>
+</head>
+
+<body>
+<header>
+    <!-- Click sur image pour retourner à l'accueil -->
+    <a href="index.html"> <img src="data/logo.png"> </a>
+    <a class="log" href="login.html"> <img src="data/connexion.png"> </a>
+</header>
+
+<nav id="mainTopNav" class="topnav">
+
+    <a href="index.html">Films</a>
+    <a class="active"href="cinemas.html">Cinemas</a>
+    <a href="seances.html">Seances</a>
+    <a href="admin/admin.html">Admin</a>
+
+    <a href="javascript:void(0);" class="icon" onclick="topnavManager()">
+        <i class="fa fa-bars"></i>
+    </a>
+</nav>
+
+<main>
+    <br>
+    <h1 class="center">Cinemas</h1>
+    <br>
+    <div class="cinemas" id="cinemas">
+    <script>
+        function createCinema (id, nom,adresse,ville) {
+            let a = document.createElement('a');
+            a.href = "cinema.html?id=" + id;
+            let div = document.createElement('div');
+            div.classList.add("center");
+            let tit = document.createElement('h1');
+            tit.innerText = nom;
+            let add = document.createElement('p');
+            add.innerText = adresse;
+            let v = document.createElement('p');
+            v.innerText = ville;
+            div.appendChild(tit);
+            div.appendChild(add);
+            div.appendChild(v);
+            a.appendChild(div)
+            return a;
+
+        }
+        window.onload =  async function () {
+            const response = await fetch("http://localhost:8080/cinemas");
+            const cinemas = await response.json();
+            table = document.getElementById("cinemas");
+            cinemas.forEach(cinema => {
+                table.appendChild(createCinema(cinema.cinema_id,cinema.nom,cinema.adresse.rue, cinema.adresse.codepostal + " " + cinema.adresse.ville,));
+            })
+        }
+    </script>
+
+</main>
+
+<footer>
+
+
+</footer>
+</body>
+
+</html>

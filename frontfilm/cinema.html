@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link rel="stylesheet" type="text/css" href="css/cinema.css">
+    <title>Film Master</title>
+</head>
+
+<body>
+<header>
+    <!-- Click sur image pour retourner à l'accueil -->
+    <a href="index.html"> <img src="data/logo.png"> </a>
+    <a class="log" href="login.html"> <img src="data/connexion.png"> </a>
+</header>
+
+<nav id="mainTopNav" class="topnav">
+    <a href="index.html">Films</a>
+    <a href="cinemas.html">Cinemas</a>
+    <a href="seances.html">Seances</a>
+    <a href="admin/admin.html">Admin</a>
+
+
+</nav>
+
+<main class="main">
+
+    <br>
+    <br>
+
+        <div class="center" id="cinema">
+
+        </div>
+
+       <div class="Afilm" id="cinema_id">
+               <script>
+                   getParameter = (key) => {
+                       // Address of the current window
+                       address = window.location.search
+                       // Returns a URLSearchParams object instance
+                       parameterList = new URLSearchParams(address)
+                       // Returning the respected value associated
+                       // with the provided key
+                       return parameterList.get(key)
+                   }
+
+                   function createMovie (id,imgsrc,titre,duree,real) {
+                       let div = document.createElement('div');
+                       div.classList.add("film");
+                       let a = document.createElement('a');
+                       a.href = "film.html?id=" + id;
+                       let img = document.createElement('img');
+                       img.src = imgsrc;
+                       a.appendChild(img);
+                       let tit = document.createElement('h1');
+                       tit.innerText = titre;
+                       let dur = document.createElement('p');
+                       dur.innerText = duree;
+                       let realisateur = document.createElement('p');
+                       realisateur.innerText = real;
+                       div.appendChild(a);
+                       div.appendChild(tit);
+                       div.appendChild(dur);
+                       div.appendChild(realisateur);
+                       return div;
+                   }
+
+                   function createSeance (film_titre,cinema_nom,dated) {
+                       let div = document.createElement('div');
+                       div.classList.add("seance");
+                       let afilm_nom = document.createElement('h1');
+                       afilm_nom.innerText = film_titre;
+                       let acinema_nom = document.createElement('h1');
+                       acinema_nom.innerText = cinema_nom;
+                       let adated = document.createElement('p');
+                       adated.innerText = dated;
+
+                       div.appendChild(afilm_nom);
+                       div.appendChild(acinema_nom);
+                       div.appendChild(adated);
+                       div.appendChild(adatef);
+                       return div;
+
+                   }
+
+                   window.onload =  async function () {
+                       let id = getParameter("id");
+                       if(id == null)
+                           id = 1
+                       const response = await fetch("http://localhost:8080/cinemas/" + id);
+                       const cinema = await response.json();
+
+                       element_cine = document.getElementById("cinema")
+                       let name = document.createElement("h1");
+                       name.innerText = cinema.nom;
+                       element_cine.appendChild(name);
+
+                       let adresse = document.createElement("h2");
+                       adresse.innerText = "Adresse : " + cinema.adresse.rue + ", " + cinema.adresse.codepostal + " " + cinema.adresse.ville + ", " + cinema.adresse.pays;
+                       element_cine.appendChild(adresse);
+
+
+
+                       let listfilm = document.getElementById("list_film");
+                       cinema.films.forEach(film => {
+                            film_division = createMovie(film.film_id, film.imgurl, film.titre, film.duree, film.producteur.nom  + " " + film.producteur.prenom);
+                            listfilm.appendChild(film_division);
+                       })
+
+                       let id2 = getParameter("id");
+                       if(id == null)
+                           id = 1
+                       const response2 = await fetch("http://localhost:8080/cinemas/" + id2 + "/seances");
+                       const seances = await response2.json()
+
+                       let listseance= document.getElementById("list_seance");
+                       console.log(seances)
+                       seances.forEach(seance => {
+                           seance_division = createSeance(seance.film.titre, seance.cinema.nom, seance.dateD, seance.finD);
+                           listseance.appendChild(seance_division);
+                       })
+
+                       }
+
+               </script>
+       </div>
+    <br>
+        <h1 class="center">Liste des films dans votre cinéma</h1>
+    <br>
+        <div class="Grid"  id = "list_film"></div>
+    <br>
+    <h1 class="center">Prochaines séances</h1>
+    <br>
+        <div class="Grid-cell" id = "list_seance">
+            <div>
+
+
+    </main>
+
+<footer>
+
+
+</footer>
+</body>
+
+</html>

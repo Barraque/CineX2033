@@ -12,6 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("adresses")
+@CrossOrigin(origins = "*", maxAge = 3600)
 public class AdresseController {
 
     @Autowired
@@ -47,5 +48,13 @@ public class AdresseController {
             @RequestBody Adresse adresse
     ){
         return adresseService.saveAdresse(adresse);
+    }
+
+    @DeleteMapping("{id}")
+    public String delAdresse(
+            @PathVariable(name = "id") Long id
+    ){
+        adresseService.delAdresse(id);
+        return "Objet supprimé";
     }
 }

@@ -11,6 +11,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("seances")
+@CrossOrigin(origins = "*", maxAge = 3600)
 public class SeanceController {
 
     @Autowired
@@ -44,5 +45,14 @@ public class SeanceController {
     ){
         return seanceService.saveSeance(transitionDTO.fromDto(seanceDTO));
     }
+
+    @DeleteMapping("{id}")
+    public String delSeance(
+            @PathVariable("id") Long id
+    ){
+        seanceService.delSeance(id);
+        return "Objet supprimé";
+    }
+
     
 }

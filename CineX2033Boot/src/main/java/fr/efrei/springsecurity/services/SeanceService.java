@@ -29,4 +29,9 @@ public class SeanceService {
         return seanceRepository.findAll();
     }
 
+    public void delSeance(Long id){
+        seanceRepository.delete(getSeance(id));
+    }
+
+
 }

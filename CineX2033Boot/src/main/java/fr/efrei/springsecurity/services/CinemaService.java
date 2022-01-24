@@ -3,8 +3,11 @@ package fr.efrei.springsecurity.services;
 
 import fr.efrei.springsecurity.models.Cinema;
 import fr.efrei.springsecurity.models.Film;
+import fr.efrei.springsecurity.models.Seance;
 import fr.efrei.springsecurity.models.dto.CinemaDTO;
 import fr.efrei.springsecurity.repositories.CinemaRepository;
+import fr.efrei.springsecurity.repositories.FilmRepository;
+import fr.efrei.springsecurity.repositories.SeanceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +21,8 @@ public class CinemaService {
     @Autowired
     CinemaRepository cinemaRepository;
 
+    @Autowired
+    SeanceRepository seanceRepository;
 
     public Cinema saveCinema(final Cinema cinema){
 
@@ -42,6 +47,19 @@ public class CinemaService {
             }
         }
         return cinemadeville;
+    }
+
+    public void delCinema(Long id){
+        cinemaRepository.delete(getCinema(id));
+    }
+
+    public List<Seance> getSeances(Long id) {
+        List<Seance> seances = new ArrayList<>();
+        for(Seance seance : seanceRepository.findAll()){
+            if(seance.getCinema().getCinema_id().equals(id))
+                seances.add(seance);
+        }
+        return seances;
     }
 
 }

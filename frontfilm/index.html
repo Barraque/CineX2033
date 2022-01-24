@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link rel="stylesheet" type="text/css" href="css/films.css">
+    <title>Film Master</title>
+</head>
+
+<body>
+    <header>
+        <!-- Click sur image pour retourner à l'accueil -->
+        <a href="index.html"> <img src="data/logo.png"> </a>
+        <a class="log" href="login.html"> <img src="data/connexion.png"> </a>
+    </header>
+
+    <nav id="mainTopNav" class="topnav">
+        <a class="active" href="index.html">Films</a>
+      <a href="cinemas.html">Cinemas</a>
+        <a href="seances.html">Seances</a>
+        <a href="admin/admin.html">Admin</a>
+
+        </div>
+
+            <a href="javascript:void(0);" class="icon" onclick="topnavManager()">
+                <i class="fa fa-bars"></i>
+            </a>
+    </nav>
+
+
+    <main>
+
+        <div class="center" id="searchbar">
+            <h1>Rechercher un films dans votre ville</h1>
+            <select id="villeinput"></select>
+            <input id="butville" class="bouton" type="button" value="Rechercher" />
+            <input id="clearbut" type="submit" value="clear">
+        </div>
+        <br>
+        <h1 class="center">Liste des films</h1>
+        <br>
+        <div class="films" id="films">
+
+          <script>
+
+              async function getVilles() {
+                  const response = await fetch("http://localhost:8080/adresses");
+                  const adresses = await response.json();
+                  select = document.getElementById("villeinput");
+                  lstville = []
+                  adresses.forEach(adresse =>{
+                      if(!lstville.includes(adresse.ville)) {
+                          lstville.push(adresse.ville)
+                          option = document.createElement("option")
+                          option.value = adresse.ville
+                          option.innerText = adresse.ville
+                          select.appendChild(option)
+                      }
+                  })
+              }
+
+              function createMovie (id,imgsrc,titre,duree,real) {
+                  let div = document.createElement('div');
+                  div.classList.add("film");
+                  let a = document.createElement('a');
+                  a.href = "film.html?id=" + id;
+                  a.classList.add("aimg")
+                  let img = document.createElement('img');
+                  img.src = imgsrc;
+                  img.classList.add("imgc")
+                  a.appendChild(img);
+                  let tit = document.createElement('h1');
+                  tit.innerText = titre;
+                  let dur = document.createElement('p');
+                  dur.innerText = duree;
+                  let realisateur = document.createElement('p');
+                  realisateur.innerText = real;
+                  div.appendChild(a);
+                  div.appendChild(tit);
+                  div.appendChild(dur);
+                  div.appendChild(realisateur);
+                  return div;
+              }
+
+
+
+              async function lesfilms() {
+                  const response = await fetch("http://localhost:8080/films");
+                  const films = await response.json();
+                  table = document.getElementById("films");
+                  table.innerHTML = ""
+                  films.forEach(film => {
+                      table.appendChild(createMovie(film.film_id, film.imgurl, film.titre, film.duree, film.producteur.nom));
+                  });
+              }
+              window.onload =  async function () {
+                  lesfilms()
+                  but = document.getElementById("butville")
+                  but.addEventListener('click', async function () {
+                      select = document.getElementById("villeinput")
+                      ville = select.options[select.selectedIndex].value
+                      if (ville !== "") {
+                          const response = await fetch("http://localhost:8080/films?ville=" + ville);
+                          const films = await response.json();
+                          table = document.getElementById("films");
+                          table.innerHTML = ''
+                          films.forEach(film => {
+                              table.appendChild(createMovie(film.film_id, film.imgurl, film.titre, film.duree, film.producteur.nom));
+                          })
+                      }
+                  })
+                  getVilles()
+                  but = document.getElementById("clearbut")
+                  but.addEventListener('click', function (){
+                      lesfilms()
+                  })
+
+              }
+          </script>
+        </div>
+
+
+    </main>
+
+</body>
+
+
+</html>

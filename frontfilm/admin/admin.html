@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/style.css">
+    <link rel="stylesheet" type="text/css" href="../css/admin.css">
+    <title>Film Master</title>
+
+</head>
+<body>
+    <header>
+        <a href="../films.html"> <img src="../data/logo.png"> </a>
+    </header>
+
+    <nav id="mainTopNav" class="topnav">
+        <a href="../index.html">Films</a>
+        <a href="../cinemas.html">Cinemas</a>
+        <a href="../seances.html">Seances</a>
+    </nav>
+
+
+</header>
+<div class="login-form">
+
+</div>
+<br>
+<div class="login-form">
+
+    <form>
+        <h2 class="center">Ajouter un film</h2>
+        <div class="form-group">
+            <p class="center2">Nom du film</p>
+            <input type="text" name="Nom du film" class="form-control" placeholder="Nom du film" required="required" autocomplete="off">
+        </div>
+        <div class="form-group">
+            <p class="center2">Durée du film</p>
+            <input type="text" name="Durée du film" class="form-control" placeholder="Durée du film" required="required" autocomplete="off">
+        </div>
+        <div class="form-group">
+            <p class="center2">Langue du film</p>
+            <input type="text" name="Langue du film" class="form-control" placeholder="Langue du film" required="required" autocomplete="off">
+        </div>
+        <div class="form-group">
+            <p class="center2">ID du producteur du film</p>
+            <input type="text" name="ID du producteur du film" class="form-control" placeholder="ID du producteur du film" required="required" autocomplete="off">
+        </div>
+        <p class="center2">Saisir le nom des acteurs</p>
+
+        <select id="monselect">
+
+            <option value="valeur1">Valeur 1</option>
+            <option value="valeur2" selected>Valeur 2</option>
+            <option value="valeur3">Valeur 3</option>
+        </select>
+
+        <div class="form-group">
+            <p class="center2">Age minimun pour regarder le film</p>
+            <input type="text" name="Age minimun pour regarder le film" class="form-control" placeholder="Age minimun pour regarder le film" required="required" autocomplete="off">
+        </div>
+        <div class="form-group">
+            <p class="center2">Date de début de diffusion</p>
+            <input type="text" name="Date de début de diffusion" class="form-control" placeholder="Date de début de diffusion" required="required" autocomplete="off">
+        </div>
+        <div class="form-group">
+            <p class="center2">Date de fin de diffusion</p>
+            <input type="text" name="Date de fin de diffusion" class="form-control" placeholder="Date de fin de diffusion" required="required" autocomplete="off">
+        </div>
+
+    <div class="form-group">
+        <p>URL du la jacket du film</p>
+        <input id="imgurl" type="text" name="URL du la jacket du film" class="form-control" placeholder="URL du la jacket du film" required="required" autocomplete="off">
+    </div>
+    <br>
+    <div class="form-group">
+        <button id="but" type="submit" class="btn btn-primary btn-block">Ajouter un film</button>
+    </div>
+    <br>
+
+    <table id="tablefilm" style="border:1px solid black">
+        <script>
+
+            function getAuthCookie() {
+                var cn = "Authorization=";
+                var idx = document.cookie.indexOf(cn)
+
+                if (idx !== -1) {
+                    var end = document.cookie.indexOf(";", idx + 1);
+                    if (end === -1) end = document.cookie.length;
+                    return unescape(document.cookie.substring(idx + cn.length, end));
+                } else {
+                    return "";
+                }
+            }
+
+            function checkLogin(){
+                const response = fetch("http://localhost:8080/auth",{ method: 'POST',
+                    headers: {
+                        'Authorization' : getAuthCookie(),
+                        'Access-Control-Allow-Origin': '*'
+                    }});
+                response.then(  function (response) {
+                    if(response.status !== 200){
+                        window.location.href = history.go(-1);
+                    }
+                });
+            }
+
+            function findOption(select, idrecherche){
+                i = -1
+                Array.from(select.options).forEach(option => {
+                    i++
+                    if(option.value === idrecherche) {
+                        return i
+                    }
+                })
+            }
+
+            async function getActeurs() {
+                const response = await fetch("http://localhost:8080/personnes");
+                const personnes = await response.json();
+                var acteurs1 = document.getElementById("acteurs1")
+                var acteurs2 = document.getElementById("acteurs2")
+                var acteurs3 = document.getElementById("acteurs3")
+                window.personnes.forEach(personne => {
+                    if(personne.estActeur === true){
+                        var opt = document.createElement("option");
+                        opt.value = personne.personne_id;
+                        opt.innerText = personne.prenom + " " + personne.nom;
+                        acteurs1.appendChild(opt);
+                        opt = document.createElement("option");
+                        opt.value = personne.personne_id;
+                        opt.innerText = personne.prenom + " " + personne.nom;
+                        acteurs2.appendChild(opt);
+                        opt = document.createElement("option");
+                        opt.value = personne.personne_id;
+                        opt.innerText = personne.prenom + " " + personne.nom;
+                        acteurs3.appendChild(opt);
+                    }
+                });
+            }
+
+            async function getProducteur(producteur) {
+                window.personnes.forEach(personne => {
+                    if(personne.estProducteur === true){
+                        var opt = document.createElement("option");
+                        opt.value = personne.personne_id;
+                        opt.innerText = personne.prenom + " " + personne.nom;
+                        producteur.appendChild(opt);
+                    }
+                });
+            }
+
+            async function getLangues() {
+                const response = await fetch("http://localhost:8080/films/getLangues");
+                const langues = await response.json();
+                var select = document.getElementById("langue")
+                langues.forEach(langue => {
+                    var opt = document.createElement("option");
+                    opt.value = langue;
+                    opt.innerText = langue;
+                    select.appendChild(opt);
+                });
+            }
+            window.onload = async () => {
+                checkLogin();
+                const response = await fetch("http://localhost:8080/personnes");
+                window.personnes = await response.json();
+                const response2 = await fetch("http://localhost:8080/films");
+                window.films = await response2.json();
+                getProducteur(document.getElementById("producteur"))
+                getLangues()
+                getActeurs()
+                tablefilms()
+                tableseances()
+                filmtocinema()
+                tablecinema()
+                tablepers()
+
+                $("#perssub").click(function (){
+                    pers = {
+                        personne_id:0,
+                        prenom:document.getElementById("persprenom").value,
+                        nom:document.getElementById("persnom").value,
+                        daten:document.getElementById("persdate").value,
+                        estActeur:document.getElementById("persacteur").checked,
+                        estProducteur:document.getElementById("persreal").checked,
+                    }
+
+                    const response = fetch("http://localhost:8080/personnes", {
+                        method: 'POST',
+                        headers: {
+                            'Authorization': getAuthCookie(),
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(pers)
+                    });
+                    response.then(  function (response) {
+                        if (response.status !== 200) {
+                            alert("probleme " + response.status)
+                        } else {
+                            alert("personne ajouté")
+                        }
+                        tablepers()
+                    });
+                })
+
+                $("#butajoutcinema").click(function (){
+                    rue = document.getElementById("ruecinema").value
+                    ville = document.getElementById("villecinema").value
+                    cpp = document.getElementById("cpcinema").value
+                    ladresse = {
+                        rue : rue,
+                        ville : ville,
+                        codepostal :cpp,
+                        pays : "France",
+                        adresse_id : 0
+                    }
+
+                    const rep = fetch("http://localhost:8080/adresses", {
+                        method: 'POST',
+                        headers: {
+                            'Authorization': getAuthCookie(),
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(ladresse)
+                    });
+                    rep.then(  async function (repadresse) {
+                        if (repadresse.status !== 200) {
+                            alert("probleme " + repadresse.status)
+                        } else {
+                            ladresse = await repadresse.json()
+                            cinema = {
+                                nom: document.getElementById("nomcinema").value,
+                                adresseId: ladresse.adresse_id,
+                                id: 0,
+                                listefilm: []
+                            }
+                            console.log(cinema)
+                            const repci = fetch("http://localhost:8080/cinemas", {
+                                method: 'POST',
+                                headers: {
+                                    'Authorization': getAuthCookie(),
+                                    'Content-Type': 'application/json'
+                                },
+                                body: JSON.stringify(cinema)
+                            });
+                            repci.then(function (repapres) {
+                                if (repapres.status !== 200) {
+                                    alert("probleme " + repapres.status)
+                                } else {
+                                    alert("cinema ajouté")
+                                }
+                                tablecinema()
+                            });
+                        }
+                    });
+                    response2.body
+
+                })
+
+                $("#butseance").click(function (){
+                    seance = {
+                        "id":0,
+                        "cinemaId" : document.getElementById("cinema_id").value,
+                        "filmId" : document.getElementById("film_id").value,
+                        "dateD": document.getElementById("dateD").value
+                    }
+
+                    const response = fetch("http://localhost:8080/seances", {
+                        method: 'POST',
+                        headers: {
+                            'Authorization': getAuthCookie(),
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(seance)
+                    });
+                    response.then(  function (response) {
+                        if (response.status !== 200) {
+                            alert("probleme " + response.status)
+                        } else {
+                            alert("seance ajouté")
+                        }
+                        tableseances()
+                    });
+                })
+            };
+
+            $("#but").click(async function () {
+                acteurs = [];
+                var sel = document.getElementById("acteurs1");
+                if (sel.options[sel.selectedIndex].value != -1) {
+                    acteurs.push(sel.options[sel.selectedIndex].value);
+                }
+
+                sel = document.getElementById("acteurs2");
+                if (sel.options[sel.selectedIndex].value != -1) {
+                    acteurs.push(sel.options[sel.selectedIndex].value);
+                }
+
+                sel = document.getElementById("acteurs3");
+                if (sel.options[sel.selectedIndex].value != -1) {
+                    acteurs.push(sel.options[sel.selectedIndex].value);
+                }
+
+                langue = document.getElementById("langue");
+                producteur = document.getElementById("producteur");
+                film = {
+                    "titre": document.getElementById("nom").value,
+                    "dateD": document.getElementById("dated").value,
+                    "dateF": document.getElementById("datef").value,
+                    "duree": document.getElementById("duree").value,
+                    "imgurl": document.getElementById("imgurl").value,
+                    "langues": langue.options[langue.selectedIndex].value,
+                    "minage": document.getElementById("age").value,
+                    "producteurId": producteur.options[producteur.selectedIndex].value,
+                    "acteurs": acteurs
+                }
+                const response = fetch("http://localhost:8080/films", {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': getAuthCookie(),
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(film)
+                });
+                response.then(  function (response) {
+                    if (response.status !== 200) {
+                        alert("probleme " + response.status)
+                    } else {
+                        alert("film ajouté")
+                    }
+                    tablefilms()
+                });
+            });
+
+            const removeChilds = (parent) => {
+                while (parent.lastChild) {
+                    parent.removeChild(parent.lastChild);
+                }
+            };
+
+            function trfortavlefilm(id, nom, duree, langue, producteur, acteurs, age, dated, datef, imgurl){
+                tr = document.createElement("tr")
+                td = document.createElement("td")
+                td.innerText = nom
+                td.setAttribute('id','nom_'+ id)
+                tr.appendChild(td);td = document.createElement("td")
+                td.innerText = duree
+                td.setAttribute('id','duree_'+ id)
+                tr.appendChild(td);td = document.createElement("td")
+                td.innerText = langue
+                td.setAttribute('id','langue_'+ id)
+                tr.appendChild(td);td = document.createElement("td")
+                /*select = document.createElement("select")
+                getProducteur(select)
+                let mettre = findOption(select, producteur.personne_id);
+                console.log(mettre)
+                select.selectedIndex = mettre*/
+                td.innerText = producteur.nom + " " + producteur.prenom;
+                td.setAttribute('id','producteur_'+ id)
+                tr.appendChild(td);
+                var strr = " "
+                td = document.createElement("td")
+                td.setAttribute('id','acteur_'+ id)
+                acteurs.forEach(acteur => {
+                    strr = strr.concat(acteur.nom + " " + acteur.prenom +";")
+                })
+                td.innerText = strr
+                tr.appendChild(td)
+                td = document.createElement("td")
+                if(age == undefined)
+                    age = 0
+                td.innerText = age
+                td.setAttribute('id','age_'+ id)
+                tr.appendChild(td); td = document.createElement("td")
+                td.innerText = dated
+                td.setAttribute('id','dated_'+ id)
+                tr.appendChild(td); td = document.createElement("td")
+                td.innerText = datef
+                td.setAttribute('id','datef_'+ id)
+                tr.appendChild(td); td = document.createElement("td")
+                if(imgurl == undefined)
+                    imgurl = "http://img5.allocine.fr/acmedia/medias/nmedia/18/88/95/51/20264410.jpg"
+                td.innerText = imgurl
+                td.setAttribute('id','imgurl_'+ id)
+                tr.appendChild(td)
+                td = document.createElement("td")
+                but = document.createElement("button")
+                but.innerText = "Suppimer"
+                but.setAttribute('type', 'submit')
+                but.addEventListener('click',async function () {
+                    const response = fetch("http://localhost:8080/films/" + id , {
+                        method: 'DELETE',
+                        headers: {
+                            'Authorization': getAuthCookie()
+                        }
+                    });
+                    response.then(  function (response) {
+                        if (response.status !== 200) {
+                            alert("probleme " + response.status)
+                            tablefilms()
+                        } else {
+                            alert("film supprimé")
+                        }
+                        tablefilms();
+                    });
+
+                })
+                td.appendChild(but)
+                tr.appendChild(td)
+                return tr
+            }
+            async function tablefilms() {
+                const response = await fetch("http://localhost:8080/films");
+                const films = await response.json();
+                table = document.getElementById("tablefilm");
+                removeChilds(table)
+                table.innerHTML ="<tr><b><td>Nom</td><td>Durée du film</td><td>Langue du film</td><td>Producteur</td><td>Acteurs</td><td>Age minimum</td><td>Date debut</td><td>Date fin</td><td>Image affiche url</td><td>Supprimer</td></b></tr>"
+                films.forEach(film => {
+                    tr = trfortavlefilm(film.film_id, film.titre,film.duree,film.langues,film.producteur, film.acteurs, film.minage, film.dateD, film.dateF, film.imgurl)
+                    table.appendChild(tr);
+                });
+            }
+            function trfortableseance(id,film, cinema, date){
+                tr = document.createElement("tr")
+                td = document.createElement("td")
+                td.innerText = film.titre;
+                tr.appendChild(td);td = document.createElement("td")
+                td.innerText = film.film_id;
+                tr.appendChild(td);td = document.createElement("td")
+                td.innerText = cinema.nom;
+                tr.appendChild(td);td = document.createElement("td")
+                td.innerText = cinema.cinema_id;
+                tr.appendChild(td);td = document.createElement("td")
+                td.innerText = date;
+                tr.appendChild(td);td = document.createElement("td")
+                but = document.createElement("button")
+                but.innerText = "Suppimer"
+                but.setAttribute('type', 'submit')
+                but.addEventListener('click',async function () {
+                    const response = fetch("http://localhost:8080/seances/" + id , {
+                        method: 'DELETE',
+                        headers: {
+                            'Authorization': getAuthCookie()
+                        }
+                    });
+                    response.then(async function (response) {
+                        if (response.status !== 200) {
+                            alert("probleme " + response.status)
+                        } else {
+                            alert("seance supprimée")
+                        }
+                        await tableseances();
+                    });
+                })
+                td.appendChild(but)
+                tr.appendChild(td)
+                return tr
+            }
+            async function tableseances(){
+                const response = await fetch("http://localhost:8080/seances");
+                const seances = await response.json();
+                table = document.getElementById("listseance");
+                removeChilds(table)
+                table.innerHTML = "<tr><b><td>Titre du film</td><td>ID du film</td><td>Nom du cinema</td><td>ID du Cinema</td><td>Date de séance</td><td>Supprimer</td></b></tr>"
+                seances.forEach(seance => {
+                    tr = trfortableseance(seance.id, seance.film, seance.cinema, seance.dateD)
+                    table.appendChild(tr);
+                });
+            }
+
+            async function tablefilmcinemas(id) {
+                const response = await fetch("http://localhost:8080/cinemas/" + id + "/films");
+                const films = await response.json();
+                table = document.getElementById("tablefilmtocinema")
+                table.innerHTML = " <tr><b><td>Titre du film</td><td>ID du film</td><td>Supprimer</td>"
+                films.forEach(film => {
+                    tr = document.createElement("tr")
+                    td = document.createElement("td")
+                    td.innerText = film.titre
+                    tr.appendChild(td); td = document.createElement("td")
+                    td.innerText = film.film_id
+                    tr.appendChild(td); td = document.createElement("td")
+                    but = document.createElement("button")
+                    but.innerText = "Supprimer"
+                    but.addEventListener('click', function (){
+                        const response = fetch("http://localhost:8080/cinemas/" + id + "/films/" + film.film_id, {
+                            method: 'DELETE',
+                            headers: {
+                                'Authorization': getAuthCookie()
+                            }
+                        });
+                        response.then(async function (response) {
+                            if (response.status !== 200) {
+                                alert("probleme " + response.status)
+                            } else {
+                                alert("film supprimée")
+                            }
+                            await tablefilmcinemas(id);
+                        });
+                    })
+                    td.appendChild(but)
+                    tr.appendChild(td)
+                    table.appendChild(tr)
+                })
+
+            }
+
+            function getfimlFromWindow(id) {
+                window.films.forEach(film => {
+                    if(film.film_id === id)
+                        return film
+                })
+                return films[0]
+            }
+
+            async function filmtocinema() {
+                const response = await fetch("http://localhost:8080/cinemas");
+                const cinemas = await response.json();
+                select = document.getElementById("cinemaaselect")
+                cinemas.forEach(cinema => {
+                    opt = document.createElement("option")
+                    opt.value = cinema.cinema_id
+                    opt.innerText = cinema.nom
+                    select.appendChild(opt)
+                })
+                selectfilm = document.getElementById("filmaajouter")
+                window.films.forEach(film => {
+                    opt = document.createElement("option")
+                    opt.value = film.film_id
+                    opt.innerText = film.titre
+                    selectfilm.appendChild(opt)
+                })
+
+                select.addEventListener('change',function (){
+                    val = select.options[select.selectedIndex].value
+                    tablefilmcinemas(val)
+                })
+
+                val = select.options[select.selectedIndex].value
+                valfilm = selectfilm.options[selectfilm.selectedIndex].value
+                but = document.getElementById("ajoutfilm")
+                but.addEventListener('click',function (){
+                    const response = fetch("http://localhost:8080/cinemas/" + select.options[select.selectedIndex].value + "/films/" + selectfilm.options[selectfilm.selectedIndex].value, {
+                        method: 'POST',
+                        headers: {
+                            'Authorization': getAuthCookie()
+                        },
+                    });
+                    response.then(async function (response) {
+                        if (response.status !== 200) {
+                            alert("probleme " + response.status)
+                        } else {
+                            alert("film ajouté")
+                        }
+                        tablefilmcinemas(val)
+                    });
+                })
+
+                val = select.options[select.selectedIndex].value
+                tablefilmcinemas(val)
+            }
+
+            async function tablecinema() {
+                const response = await fetch("http://localhost:8080/cinemas");
+                const cinemas = await response.json();
+
+                table = document.getElementById("listecinemas")
+                table.innerHTML = "<tr><b><td>Nom du cinema</td><td>ID du cinema</td><td>Adresse</td><td>Supprimer</td></b></tr>"
+                cinemas.forEach(cinema => {
+                    tr = document.createElement("tr")
+                    td = document.createElement("td")
+
+                    td.innerText = cinema.nom
+                    tr.appendChild(td);td = document.createElement("td");
+                    td.innerText = cinema.cinema_id
+                    tr.appendChild(td);td = document.createElement("td");
+                    td.innerText = cinema.adresse.rue + " " + cinema.adresse.ville + " " + cinema.adresse.codepostal
+                    tr.appendChild(td);td = document.createElement("td");
+                    but = document.createElement("button")
+                    but.innerText = "Supprimer"
+                    but.addEventListener('click', function (){
+                        const response = fetch("http://localhost:8080/cinemas/" + cinema.cinema_id, {
+                            method: 'DELETE',
+                            headers: {
+                                'Authorization': getAuthCookie()
+                            }
+                        });
+                        response.then(async function (response) {
+                            if (response.status !== 200) {
+                                alert("probleme " + response.status)
+                            } else {
+                                alert("cienma supprimée")
+                            }
+                            await tablecinema();
+                        });
+                    })
+                    td.appendChild(but)
+                    tr.appendChild(td)
+                    table.appendChild(tr)
+                })
+            }
+
+            async function tablepers() {
+                const response = await fetch("http://localhost:8080/personnes");
+                const personnes = await response.json();
+
+                table = document.getElementById("listpers")
+                //table.innerHTML = "<tr><b><td>Nom du cinema</td><td>ID du cinema</td><td>Adresse</td><td>Supprimer</td></b></tr>"
+                personnes.forEach(personne => {
+                    tr = document.createElement("tr")
+                    td = document.createElement("td")
+
+                    td.innerText = personne.nom
+                    tr.appendChild(td);
+                    td = document.createElement("td");
+                    td.innerText = personne.prenom
+                    tr.appendChild(td);
+                    td = document.createElement("td");
+                    td.innerText = personne.daten
+                    tr.appendChild(td);
+                    td = document.createElement("td");
+                    check = document.createElement("input")
+                    check.type = "checkbox"
+                    check.checked = personne.estProducteur == true
+                    td.appendChild(check);tr.appendChild(td);
+                    td = document.createElement("td");
+                    check = document.createElement("input")
+                    check.type = "checkbox"
+                    check.checked = personne.estActeur == true
+                    td.appendChild(check);tr.appendChild(td);
+                    td = document.createElement("td");
+                    but = document.createElement("button")
+                    but.innerText = "Supprimer"
+                    but.addEventListener('click', function () {
+                        const response = fetch("http://localhost:8080/cinemas/" + personne.cinema_id, {
+                            method: 'DELETE',
+                            headers: {
+                                'Authorization': getAuthCookie()
+                            }
+                        });
+                        response.then(async function (response) {
+                            if (response.status !== 200) {
+                                alert("probleme " + response.status)
+                            } else {
+                                alert("cienma supprimée")
+                            }
+                            await tablecinema();
+                        });
+                    })
+                    td.appendChild(but)
+                    tr.appendChild(td)
+                    table.appendChild(tr)
+                })
+            }
+        </script>
+    </table>
+</div>
+
+<div class="login-form">
+    <h1>Ajouter un cinema</h1>
+    <p>Nom du cinema</p>
+    <input type="text" id="nomcinema">
+    <p>Rue du cinema</p>
+    <input type="text" id="ruecinema">
+    <p>Ville du cinema</p>
+    <input type="text" id="villecinema">
+    <p>Code Postale du cinema</p>
+    <input type="text" id="cpcinema">
+    <button id="butajoutcinema">Ajouter</button>
+</div>
+
+<div class="login-form">
+    <h1 class="center">Listes des cinemas</h1>
+    <table id="listecinemas" style="border:1px solid black"></table>
+</div>
+<br>
+<div class="login-form">
+        <h2 class="text-center">Ajouter une séance</h2>
+        <div class="form-group">
+            <p>ID du film</p>
+            <input id="film_id" type="text" name="ID du film" class="form-control" placeholder="ID du film" required="required" autocomplete="off">
+        </div>
+        <div class="form-group">
+            <p>ID du Cinema</p>
+            <input id="cinema_id" type="text" name="ID du Cinema" class="form-control" placeholder="ID du Cinema" required="required" autocomplete="off">
+        </div>
+        <div class="form-group">
+            <p>Date de début de diffusion de la séance</p>
+            <input id="dateD" type="text" name="Date de début de diffusion" class="form-control" placeholder="format jj/MM/yyyy HH:mm" required="required" autocomplete="off">
+        </div>
+        <br>
+        <div class="form-group">
+            <button id="butseance" type="submit" class="btn btn-primary btn-block">Ajouter une seance</button>
+        </div>
+    <br>
+    <br>
+    <h1 class="center">Listes des seances</h1>
+    <table id="listseance" style="border:1px solid black">
+        <tr><b><td>Titre du film</td><td>ID du film</td><td>Nom du cinema</td><td>ID du Cinema</td><td>Date de séance</td><td>Supprimer</td></b></tr>
+    </table>
+    <br>
+    <div id="filmtocinema" >
+        <h1 class="center2">Ajouter/Supprimer un film d'un cinema</h1>
+        <br>
+        <select id="cinemaaselect"></select>
+        <br><br>
+        <table id="tablefilmtocinema" style="border:1px solid black">
+        </table>
+        <br>
+        <select id="filmaajouter"></select>
+        <button id="ajoutfilm" type="submit">Ajouter un film au cinema</button>
+    </div>
+
+    <h1>Listes des personnes</h1>
+    <table id="listpers" style="border:1px solid black">
+        <tr><b><td>Nom</td><td>Prenom</td><td>Date de naissance</td><td>Réalisateur</td><td>Acteur</td><td>Supprimer</td></b></tr>
+    </table>
+    <br>
+    <h2>Ajouter une personne</h2>
+    <p>Nom de la personne</p>
+    <input id="persnom" type="text"/>
+    <p>Prenom de la personne</p>
+    <input id="persprenom" type="text"/>
+    <p>Date de naissance</p>
+    <input id="persdate" type="text"/>
+    <p>Est réalisateur</p>
+    <input id="persreal" type="checkbox"/>
+    <p>Est acteur</p>
+    <input id="persacteur" type="checkbox"/>
+    <br><br>
+    <button type="submit" id="perssub">Ajouter</button>
+</div>
+
+<style>
+    .login-form {
+        width: 50%;
+        margin: 50px auto;
+    }
+    .login-form form {
+        margin-bottom: 15px;
+        background: rgba(78, 64, 64, 0.03);
+        box-shadow: 0px 5px 5px rgba(0, 0, 0, 1);
+        padding: 30px;
+    }
+    .login-form h2 {
+        margin: 0 0 15px;
+    }
+    .form-control, .btn {
+        min-height: 38px;
+        border-radius: 2px;
+    }
+    .btn {
+        font-size: 15px;
+        font-weight: bold;
+    }
+</style>
+</body>
+</html>

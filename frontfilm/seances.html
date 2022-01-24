@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link rel="stylesheet" type="text/css" href="css/seances.css">
+    <title>Film Master</title>
+</head>
+
+<body>
+<header>
+    <!-- Click sur image pour retourner à l'accueil -->
+    <a href="index.html"> <img src="data/logo.png"> </a>
+    <div class="log">
+        <a class="log" href="login.html"> <img src="data/connexion.png"> </a>
+    </div>
+
+
+
+</header>
+
+<nav id="mainTopNav" class="topnav">
+    <a  href="index.html">Films</a>
+    <a href="cinemas.html">Cinemas</a>
+    <a class="active"href="seances.html">Seances</a>
+    <a href="admin/admin.html">Admin</a>
+
+
+    </div>
+
+    <a href="javascript:void(0);" class="icon" onclick="topnavManager()">
+        <i class="fa fa-bars"></i>
+    </a>
+</nav>
+
+
+<main>
+    <br>
+    <h1 class="center">Liste des Séances</h1>
+    <br>
+    <div class="seances" id="seance">
+        <script>
+
+
+            function createSeance (film_titre,cinema,dated) {
+                let div = document.createElement('div');
+                div.classList.add("center");
+                let afilm_nom = document.createElement('h1');
+                afilm_nom.innerText = film_titre;
+                let acinema_nom = document.createElement('h1');
+                acinema_nom.innerText = cinema.nom + " - " + cinema.adresse.ville;
+                let adated = document.createElement('p');
+                adated.innerText = dated;
+
+                div.appendChild(afilm_nom);
+                div.appendChild(acinema_nom);
+                div.appendChild(adated);
+                return div;
+
+            }
+            window.onload =  async function () {
+                const response = await fetch("http://localhost:8080/seances");
+                const seances = await response.json();
+                table = document.getElementById("seance");
+                console.log(seances)
+                seances.forEach(seance => {
+                    table.appendChild(createSeance(seance.film.titre, seance.cinema, seance.dateD, seance.finD));
+                })
+            }
+        </script>
+    </div>
+
+
+
+
+
+</main>
+
+
+<footer>
+
+
+</footer>
+</body>
+
+
+</html>

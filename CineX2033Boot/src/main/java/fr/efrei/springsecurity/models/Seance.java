@@ -1,5 +1,6 @@
 package fr.efrei.springsecurity.models;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -25,9 +26,8 @@ public class Seance {
     @JoinColumn (name = "cinema_id")
     private Cinema cinema;
 
+    @JsonFormat(pattern = "dd/MM/yyyy HH:mm")
     @Column (name ="date_debut", nullable = false)
     private Date dateD;
 
-    @Column (name ="date_fin", nullable = false)
-    private Date finD;
 }
