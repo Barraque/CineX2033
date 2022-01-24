@@ -83,6 +83,13 @@ public class FilmController {
         return "Objet supprimé";
     }
 
+    @GetMapping("{id}/cinemas")
+    public List<Cinema> getCinemasWithFilm(
+            @PathVariable("id") Long id
+    ){
+        return filmService.getCinemasFromFilm(id);
+    }
+
     @GetMapping("getLangues")
     public Langue_film[] Langue_film(){
         return Langue_film.values();

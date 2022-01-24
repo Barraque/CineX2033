@@ -68,7 +68,7 @@
                        return div;
                    }
 
-                   function createSeance (film_titre,cinema_nom,dated,datef) {
+                   function createSeance (film_titre,cinema_nom,dated) {
                        let div = document.createElement('div');
                        div.classList.add("seance");
                        let afilm_nom = document.createElement('h1');
@@ -77,8 +77,6 @@
                        acinema_nom.innerText = cinema_nom;
                        let adated = document.createElement('p');
                        adated.innerText = dated;
-                       let adatef = document.createElement('p');
-                       adatef.innerText = datef;
 
                        div.appendChild(afilm_nom);
                        div.appendChild(acinema_nom);
