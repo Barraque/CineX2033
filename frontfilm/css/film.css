@@ -6,26 +6,35 @@
 }
 
 .center {
+
+    padding-top: 150px;
     position : absolute;
     top      : 50%;
     left     : 50%;
     transform: translate(-50%, -50%);
-
     font-size : 1.5em;
     text-align: center;
-
     color        : white;
     /*text-shadow: 2px 5px 11px rgba(150, 150, 150, 1);*/
     text-shadow  : 1px 1px 2px red, 0 0 1em blue, 0 0 0.2em blue;
+}
+.topnav{
+
 }
 
 .body{
 background: #ebecf0;
     width: 75%;
 }
-
+.droite{
+    content: "";
+    display: table;
+    clear: both;
+}
 .image{
     max-width: 500px;
+    float: left;
+    width: 50%;
 }
 .film {
     max-width: 900px;
@@ -45,105 +54,12 @@ background: #ebecf0;
     font-size: 22px;
 }
 
-
-
 .table {
     margin-left: auto;
     margin-right: auto;
 }
-/* grid ================================================ */
 
-.Grid-cell img {
-    width : 100%;
-    height: 100%;
-}
-
-/* Base classes for all media */
-.Grid {
-    display   : flex;
-    flex-wrap : wrap;
-    list-style: none;
-    margin    : 0;
-    padding   : 0;
-}
-
-.Grid-cell {
-    flex: 1;
-    overflow: hidden;
-    transition: .3s ease-in-out;
-
-}
-
-.Grid-cell img {
-    transition: .3s ease-in-out;
-}
-
-.Grid-cell:hover img {
-    transform: scale(1.1);
-    opacity: 0.5;
-    transition: .3s ease-in-out;
-}
-
-.Grid--flexCells>.Grid-cell {
-    display: flex;
-}
-
-.Grid--top {
-    align-items: flex-start;
-}
-
-.Grid--bottom {
-    align-items: flex-end;
-}
-
-.Grid--center {
-    align-items: center;
-}
-
-.Grid--justifyCenter {
-    justify-content: center;
-}
-
-.Grid-cell--top {
-    align-self: flex-start;
-}
-
-.Grid-cell--bottom {
-    align-self: flex-end;
-}
-
-.Grid-cell--center {
-    align-self: center;
-}
-
-.Grid-cell--autoSize {
-    flex: none;
-}
-
-.Grid--fit>.Grid-cell {
-    flex: 1;
-}
-
-.Grid--full>.Grid-cell {
-    flex: 0 0 100%;
-}
-
-.Grid--1of2>.Grid-cell {
-    flex: 0 0 50%;
-}
-
-.Grid--1of3>.Grid-cell {
-    flex: 0 0 33.3333%;
-}
-
-.Grid--1of4>.Grid-cell {
-    flex: 0 0 25%;
-}
-
-@media screen and (max-width: 600px) {
-    .Grid-cell {
-        flex: 0 0 100%;
-        height: 150px;
-        width: 100%;
-    }
+img{
+    max-height: 500px;
+    max-height: 500px;
 }

@@ -53,10 +53,12 @@
                     let tdi = document.createElement("td");
                     tdi.classList.add("image");
                     table.appendChild(tdi);
-
                     let img = document.createElement("img");
                     img.src = film.imgurl;
                     tdi.appendChild(img);
+                    div = document.createElement("div")
+                    div.classList.add("droite")
+                    table.appendChild(div)
                     tdi = document.createElement("td");
                     let h = document.createElement("h1");
                     h.innerText = film.titre;
@@ -68,7 +70,7 @@
                         p.innerText = "Acteurs : " + acteur.nom; tdi.appendChild(p);p = document.createElement("p");
                     })
                     p.innerText = "Langue : " + film.langues; tdi.appendChild(p);p = document.createElement("p");
-                    table.appendChild(tdi);
+                    div.appendChild(tdi);
                     document.getElementById("film").appendChild(table);
                 }
             </script>
